@@ -1,0 +1,75 @@
+{
+    "name": "pascalkleindienst/laravel-glimpse",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PascalKleindienst\\LaravelGlimpse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Pascal Kleindienst",
+            "email": "mail@pascalkleindienst.de"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "hisorange/browser-detect": "^5.0",
+        "illuminate/database": "^12.0",
+        "illuminate/events": "^12.0",
+        "illuminate/http": "^12.0",
+        "illuminate/queue": "^12.0",
+        "illuminate/routing": "^12.0",
+        "illuminate/support": "^12.0",
+        "illuminate/view": "^12.0",
+        "livewire/livewire": "^3.6.4|^4.0",
+        "symfony/console": "^6.0|^7.0",
+        "nesbot/carbon": "^2.67|^3.0"
+    },
+    "require-dev": {
+        "driftingly/rector-laravel": "^2.1",
+        "larastan/larastan": "^3.9",
+        "laravel/pail": "^1.2",
+        "laravel/pint": "^1.27",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^10.0",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
+        "pestphp/pest-plugin-livewire": "^4.1",
+        "pestphp/pest-plugin-type-coverage": "^4.0",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": "@prepare",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "@build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "lint": [
+            "rector",
+            "pint --parallel"
+        ],
+        "test": [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ],
+        "test:lint": [
+            "pint --parallel --test",
+            "rector --dry-run"
+        ],
+        "test:unit": "XDEBUG_MODE=coverage vendor/bin/pest --colors=always --parallel --coverage --min=90 --coverage-clover coverage.xml --log-junit junit.xml",
+        "test:types": "vendor/bin/phpstan --memory-limit=1G"
+    }
+}

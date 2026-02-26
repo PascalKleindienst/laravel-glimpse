@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+    paths:
+        - src
+        - config
+        - database
+        - routes
+
+    # 8/9 -> libraries
+    level: 9
+
+    tmpDir: /tmp/phpstan
+    inferPrivatePropertyTypeFromConstructor: true
+    databaseMigrationsPath:
+        - database/migrations
