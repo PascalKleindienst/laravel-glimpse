@@ -30,13 +30,6 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         // Setup default database to use sqlite :memory:
         tap($app->make(Repository::class), function (Repository $config): void {
-            $config->set('database.default', 'testing');
-            $config->set('database.connections.testing', [
-                'driver' => 'sqlite',
-                'database' => ':memory:',
-                'prefix' => '',
-            ]);
-
             // Setup queue database connections.
             $config->set([
                 'queue.batching.database' => 'testing',
