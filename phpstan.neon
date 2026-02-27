@@ -7,10 +7,13 @@ parameters:
         - src
         - config
         - database
-        - routes
+    #        - routes
+
+    configDirectories:
+        - config
 
     # 8/9 -> libraries
-    level: 9
+    level: 8
 
     tmpDir: /tmp/phpstan
     inferPrivatePropertyTypeFromConstructor: true

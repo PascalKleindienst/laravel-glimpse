@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+namespace LaravelGlimpse\Tests;
+
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\AliasLoader;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Attributes\WithMigration;
+use Orchestra\Testbench\Concerns\WithWorkbench;
+
+abstract class TestCase extends \Orchestra\Testbench\TestCase
+{
+    use RefreshDatabase;
+    use WithWorkbench;
+
+    protected $enablesPackageDiscoveries = true;
+
+    protected function setUp(): void
+    {
+        self::usesTestingFeature(new WithMigration('laravel', 'queue'));
+
+        parent::setUp();
+
+        AliasLoader::getInstance()->setAliases([]);
+    }
+
+    protected function defineEnvironment($app): void
+    {
+        // Setup default database to use sqlite :memory:
+        tap($app->make(Repository::class), function (Repository $config): void {
+            $config->set('database.default', 'testing');
+            $config->set('database.connections.testing', [
+                'driver' => 'sqlite',
+                'database' => ':memory:',
+                'prefix' => '',
+            ]);
+
+            // Setup queue database connections.
+            $config->set([
+                'queue.batching.database' => 'testing',
+                'queue.failed.database' => 'testing',
+            ]);
+
+            $config->set('queue.failed.driver', 'null');
+        });
+    }
+}

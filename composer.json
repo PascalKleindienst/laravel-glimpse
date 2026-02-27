@@ -3,7 +3,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "PascalKleindienst\\LaravelGlimpse\\": "src/"
+            "LaravelGlimpse\\": "src/",
+            "LaravelGlimpse\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelGlimpse\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -46,6 +52,16 @@
         },
         "sort-packages": true
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelGlimpse"
+            ],
+            "aliases": {
+                "LaravelGlimpse": "LaravelGlimpse\\Facades\\LaravelGlimpse"
+            }
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
@@ -63,6 +79,7 @@
         "test": [
             "@test:lint",
             "@test:types",
+            "@test:type-coverage",
             "@test:unit"
         ],
         "test:lint": [
@@ -70,6 +87,7 @@
             "rector --dry-run"
         ],
         "test:unit": "XDEBUG_MODE=coverage vendor/bin/pest --colors=always --parallel --coverage --min=90 --coverage-clover coverage.xml --log-junit junit.xml",
+        "test:type-coverage": "vendor/bin/pest --parallel --type-coverage --memory-limit=1G --min=100",
         "test:types": "vendor/bin/phpstan --memory-limit=1G"
     }
 }
