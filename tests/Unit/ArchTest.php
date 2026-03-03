@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use LaravelGlimpse\Contracts\Resolver;
 use LaravelGlimpse\GlimpseServiceProvider;
 use LaravelGlimpse\Resolvers\GeoResolver;
 
@@ -61,3 +62,8 @@ arch('models')
     ->expect('LaravelGlimpse\\Models')
     ->classes()
     ->toExtend(Model::class);
+
+arch('resolvers')
+    ->expect('LaravelGlimpse\\Resolvers')
+    ->classes()
+    ->toImplement(Resolver::class);

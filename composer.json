@@ -65,12 +65,16 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "post-autoload-dump": "@prepare",
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare"
+        ],
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": "@php vendor/bin/testbench workbench:build --ansi",
         "serve": [
+            "Composer\\Config::disableProcessTimeout",
             "@build",
-            "@php vendor/bin/testbench serve"
+            "@php vendor/bin/testbench serve --ansi"
         ],
         "lint": [
             "rector",
@@ -88,6 +92,7 @@
         ],
         "test:unit": "XDEBUG_MODE=coverage vendor/bin/pest --colors=always --parallel --coverage --min=90 --coverage-clover coverage.xml --log-junit junit.xml",
         "test:type-coverage": "vendor/bin/pest --parallel --type-coverage --memory-limit=1G --min=100",
-        "test:types": "vendor/bin/phpstan --memory-limit=1G"
+        "test:types": "vendor/bin/phpstan --memory-limit=1G",
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi"
     }
 }

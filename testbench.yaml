@@ -4,6 +4,11 @@ providers:
 migrations:
   - database/migrations
 
+env:
+  GLIMPSE_GEO_DRIVER: sxgeo
+  GLIMPSE_QUEUE_CONNECTION: sync
+  CACHE_DRIVER: file
+
 workbench:
   start: '/'
   install: true
