@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse;
 
+use hisorange\BrowserDetect\Contracts\ParserInterface;
+use hisorange\BrowserDetect\Parser;
 use Illuminate\Support\ServiceProvider;
 use LaravelGlimpse\Console\Commands\InstallGlimpseCommand;
 use Override;
@@ -17,6 +19,8 @@ final class GlimpseServiceProvider extends ServiceProvider
             __DIR__.'/../config/glimpse.php',
             'glimpse'
         );
+
+        $this->app->bind(ParserInterface::class, Parser::class);
     }
 
     public function boot(): void
