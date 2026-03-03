@@ -35,7 +35,7 @@ return new class extends Migration
 
             $table->foreign('session_hash')
                 ->references('session_hash')
-                ->on('beacon_sessions')
+                ->on('glimpse_sessions')
                 ->cascadeOnDelete();
         });
     }
