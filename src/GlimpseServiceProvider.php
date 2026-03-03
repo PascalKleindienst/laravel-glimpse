@@ -62,10 +62,10 @@ final class GlimpseServiceProvider extends ServiceProvider
             InstallGlimpseCommand::class,
         ]);
 
-        AboutCommand::add('Glimpse Analytics', fn () => [
+        AboutCommand::add('Glimpse Analytics', fn (): array => [
             'Version' => InstalledVersions::getPrettyVersion('pascalkleindienst/laravel-glimpse'),
-            'Enabled' => AboutCommand::format(config('glimpse.enabled'), console: fn ($value) => $value ? '<fg=green;options=bold>ENABLED</>' : 'OFF'),
-            'Queue' => AboutCommand::format(config('queue.default', 'sync'), console: fn ($value) => $value !== 'sync' ? $value : '<fg=yellow;options=bold>⚠ sync</>'),
+            'Enabled' => AboutCommand::format(config('glimpse.enabled'), console: static fn (bool $value): string => $value ? '<fg=green;options=bold>ENABLED</>' : 'OFF'),
+            'Queue' => AboutCommand::format(config('queue.default', 'sync'), console: static fn (string $value): string => $value !== 'sync' ? $value : '<fg=yellow;options=bold>⚠ sync</>'),
         ]);
     }
 
