@@ -32,6 +32,8 @@ final class GlimpseEvent extends Model
     /** @use HasFactory<GlimpseEventFactory> */
     use HasFactory;
 
+    public $guarded = ['id'];
+
     /**
      * @return BelongsTo<GlimpseSession, $this>
      */

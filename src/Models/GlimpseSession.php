@@ -56,6 +56,8 @@ final class GlimpseSession extends Model
 
     public $timestamps = false;
 
+    public $guarded = [];
+
     /**
      * @return HasMany<GlimpsePageView, $this>
      */
