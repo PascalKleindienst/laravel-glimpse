@@ -1,3 +1,5 @@
+laravel: '@testbench'
+
 providers:
   - LaravelGlimpse\GlimpseServiceProvider
 
@@ -5,14 +7,14 @@ migrations:
   - database/migrations
 
 env:
-  GLIMPSE_GEO_DRIVER: sxgeo
+  APP_LOCALE: de
+  GLIMPSE_GEO_DRIVER: maxmind
   GLIMPSE_QUEUE_CONNECTION: sync
-  CACHE_DRIVER: file
+#  CACHE_STORE: file
 
 workbench:
   start: '/'
   install: true
-  health: false
   discovers:
     web: true
     api: true
@@ -27,3 +29,7 @@ workbench:
     - migrate-fresh
   assets:
     - laravel-assets
+  sync:
+    - from: storage
+      to: workbench/storage
+      reverse: true

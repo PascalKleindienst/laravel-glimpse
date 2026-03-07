@@ -23,6 +23,7 @@ Homestead.json
 .phpunit.result.cache
 
 workbench/storage
+workbench/bootstrap/cache/*.php
 /.idea
 /.vscode
 _ide_helper.php
