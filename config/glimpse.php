@@ -52,4 +52,53 @@ return [
         'raw' => (int) env('GLIMPSE_RETENTION_RAW', 90),
         'aggregates' => null,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | GeoIP Driver
+    |--------------------------------------------------------------------------
+    | 'maxmind'  – MaxMind GeoIP2 City database (requires a licence key and
+    |              the mmdbphp extension or geoip2/geoip2 package).
+    | 'sxgeo'    – SypexGeo free database bundled with the package (no key).
+    | 'null'     – Disables geo resolution entirely.
+    */
+    'geo' => [
+        'driver' => env('GLIMPSE_GEO_DRIVER', 'null'),
+        'maxmind_db' => env('GLIMPSE_MAXMIND_DB', storage_path('app/glimpse/GeoLite2-City.mmdb')),
+        'maxmind_key' => env('MAXMIND_LICENSE_KEY'),
+        'sxgeo_db' => env('GLIMPSE_SXGEO_DB', storage_path('app/glimpse/SxGeoCity.dat')),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Request Resolver
+    |--------------------------------------------------------------------------
+    | The following array lists the "resolvers" that will be registered with
+    | Glimpse, along with their configuration. Resolvers gather information
+    | about the request and return an array of attributes to be stored.
+    |
+    */
+    'resolver' => [
+        LaravelGlimpse\Resolvers\DeviceResolver::class => [],
+        LaravelGlimpse\Resolvers\LanguageResolver::class => [],
+        LaravelGlimpse\Resolvers\GeoResolver::class => [],
+        LaravelGlimpse\Resolvers\ReferrerResolver::class => [
+            'search_engines' => [
+                'google', 'bing', 'yahoo', 'duckduckgo', 'baidu', 'yandex',
+                'ecosia', 'startpage', 'qwant', 'brave', 'kagi', 'ask',
+            ],
+            'social_media' => [
+                'facebook', 'twitter', 'x.com', 't.co', 'instagram', 'linkedin',
+                'pinterest', 'tiktok', 'reddit', 'youtube', 'snapchat', 'whatsapp',
+                'telegram', 'mastodon', 'threads', 'bluesky', 'bsky', 'discord', 'slack',
+                'twitch',
+            ],
+            'email_clients' => [
+                'mail.google', 'outlook', 'mail.yahoo', 'protonmail', 'webmail',
+                'roundcube', 'mail.ru',
+            ],
+            // Query params that reliably indicate paid / campaign traffic.
+            'paid_params' => ['gclid', 'fbclid', 'msclkid', 'ttclid', 'li_fat_id'],
+        ],
+    ],
 ];

@@ -9,7 +9,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "LaravelGlimpse\\Tests\\": "tests/"
+            "LaravelGlimpse\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
         }
     },
     "authors": [
@@ -20,6 +21,7 @@
     ],
     "require": {
         "php": "^8.4",
+        "geoip2/geoip2": "^3.3",
         "hisorange/browser-detect": "^5.0",
         "illuminate/database": "^12.0",
         "illuminate/events": "^12.0",
@@ -29,8 +31,8 @@
         "illuminate/support": "^12.0",
         "illuminate/view": "^12.0",
         "livewire/livewire": "^3.6.4|^4.0",
-        "symfony/console": "^6.0|^7.0",
-        "nesbot/carbon": "^2.67|^3.0"
+        "nesbot/carbon": "^2.67|^3.0",
+        "symfony/console": "^6.0|^7.0"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.1",
