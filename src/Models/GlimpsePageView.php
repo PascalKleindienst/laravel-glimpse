@@ -53,6 +53,7 @@ final class GlimpsePageView extends Model
     {
         $this->time_on_page_seconds = $next->getTimestamp() - ($this->created_at?->getTimestamp() ?? 0);
         $this->updated_at = $next;
+        $this->save();
     }
 
     protected static function newFactory(): GlimpsePageViewFactory
