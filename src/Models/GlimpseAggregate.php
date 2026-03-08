@@ -37,6 +37,8 @@ final class GlimpseAggregate extends Model
 
     public $timestamps = false;
 
+    public $guarded = ['id'];
+
     protected static function newFactory(): GlimpseAggregateFactory
     {
         return GlimpseAggregateFactory::new();

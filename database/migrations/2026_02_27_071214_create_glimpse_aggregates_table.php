@@ -13,8 +13,8 @@ return new class extends Migration
         Schema::create('glimpse_aggregates', function (Blueprint $table) {
             $table->id();
             $table->string('period');
-            $table->date('date')->index();
-            $table->unsignedTinyInteger('hour')->nullable();
+            $table->date('date')->index(); // cannot use null here as this interfers with the unique index!
+            $table->unsignedTinyInteger('hour')->default(-1);
 
             // What are we measuring? e.g. 'visitors', 'page_views',
             // 'sessions', 'bounce_rate', 'avg_duration'.
@@ -22,7 +22,8 @@ return new class extends Migration
 
             // Optional breakdown dimension e.g. 'country:GB', 'browser:Chrome',
             // 'path:/about', 'channel:organic', 'event:signup'.
-            $table->string('dimension')->nullable()->index();
+            // cannot use null here as this interfers with the unique index!
+            $table->string('dimension')->default('-')->index();
 
             // The aggregate value (count, rate, sum depending on metric).
             $table->decimal('value')->default(0);
@@ -32,7 +33,7 @@ return new class extends Migration
             $table->timestamp('aggregated_at')->useCurrent();
 
             // One row per (period, date, hour, metric, dimension) combination.
-            $table->unique(['period', 'date', 'hour', 'metric', 'dimension']);
+            $table->unique(['period', 'date', 'hour', 'metric', 'dimension'], 'glimpse_agg_uniq');
             $table->index(['period', 'date', 'metric']);
         });
     }
