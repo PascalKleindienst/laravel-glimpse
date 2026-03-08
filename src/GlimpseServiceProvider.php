@@ -15,7 +15,9 @@ use LaravelGlimpse\Console\Commands\InstallGlimpseCommand;
 use LaravelGlimpse\Console\Commands\PruneDataCommand;
 use LaravelGlimpse\Contracts\AggregationServiceContract;
 use LaravelGlimpse\Contracts\PruneServiceContract;
+use LaravelGlimpse\Contracts\QueryServiceContract;
 use LaravelGlimpse\Services\AggregationService;
+use LaravelGlimpse\Services\QueryService;
 use Override;
 
 final class GlimpseServiceProvider extends ServiceProvider
@@ -31,6 +33,7 @@ final class GlimpseServiceProvider extends ServiceProvider
         $this->app->bind(ParserInterface::class, Parser::class);
         $this->app->bind(PruneServiceContract::class, PruneServiceContract::class);
         $this->app->bind(AggregationServiceContract::class, AggregationService::class);
+        $this->app->bind(QueryServiceContract::class, QueryService::class);
     }
 
     public function boot(): void

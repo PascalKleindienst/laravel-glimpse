@@ -67,3 +67,8 @@ arch('resolvers')
     ->expect('LaravelGlimpse\\Resolvers')
     ->classes()
     ->toImplement(Resolver::class);
+
+arch('values')
+    ->expect('LaravelGlimpse\\Values')
+    ->classes()
+    ->toImplement(Stringable::class);

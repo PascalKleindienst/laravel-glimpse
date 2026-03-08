@@ -16,9 +16,9 @@ use Override;
  * @property int $id
  * @property Period $period
  * @property CarbonImmutable $date
- * @property int|null $hour
+ * @property int $hour
  * @property string $metric
- * @property string|null $dimension
+ * @property string $dimension
  * @property float $value
  * @property int $count
  * @property CarbonImmutable $aggregated_at
