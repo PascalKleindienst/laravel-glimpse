@@ -111,7 +111,7 @@ final readonly class AggregationService implements AggregationServiceContract
         //     ]);
         // }
 
-        if (! empty($data)) {
+        if ($data !== []) {
             GlimpseAggregate::query()->upsert(
                 $data,
                 uniqueBy: ['period', 'date', 'hour', 'metric', 'dimension'],

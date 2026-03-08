@@ -9,7 +9,13 @@ use hisorange\BrowserDetect\Contracts\ParserInterface;
 use hisorange\BrowserDetect\Parser;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\ServiceProvider;
+use LaravelGlimpse\Console\Commands\AggregateMetricsCommand;
+use LaravelGlimpse\Console\Commands\BackfillDataCommand;
 use LaravelGlimpse\Console\Commands\InstallGlimpseCommand;
+use LaravelGlimpse\Console\Commands\PruneDataCommand;
+use LaravelGlimpse\Contracts\AggregationServiceContract;
+use LaravelGlimpse\Contracts\PruneServiceContract;
+use LaravelGlimpse\Services\AggregationService;
 use Override;
 
 final class GlimpseServiceProvider extends ServiceProvider
@@ -23,6 +29,8 @@ final class GlimpseServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(ParserInterface::class, Parser::class);
+        $this->app->bind(PruneServiceContract::class, PruneServiceContract::class);
+        $this->app->bind(AggregationServiceContract::class, AggregationService::class);
     }
 
     public function boot(): void
@@ -60,6 +68,9 @@ final class GlimpseServiceProvider extends ServiceProvider
 
         $this->commands([
             InstallGlimpseCommand::class,
+            AggregateMetricsCommand::class,
+            PruneDataCommand::class,
+            BackfillDataCommand::class,
         ]);
 
         AboutCommand::add('Glimpse Analytics', fn (): array => [
