@@ -1,7 +1,9 @@
 {
     "scripts": {
         "build": "vite build",
-        "watch": "vite build --watch"
+        "watch": "vite build --watch",
+        "lint": "prettier --write resources/",
+        "test:lint": "prettier --check resources/"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.11",
@@ -10,6 +12,9 @@
         "chart.js": "^4.5.1",
         "laravel-vite-plugin": "^2.1.0",
         "postcss": "^8.5.8",
+        "prettier": "^3.8.1",
+        "prettier-plugin-blade": "^3.0.0",
+        "prettier-plugin-tailwindcss": "^0.7.2",
         "tailwindcss": "^4.2.1",
         "vite": "^7.3.1"
     }

@@ -1,11 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @source '../views';
-@source "../**/*.js";
-@source "../**/*.ts";
+@source '../**/*.js';
+@source '../**/*.ts';
 
 @custom-variant dark (&:where(.dark, .dark *));
-
 
 /**
  * Theme Variables / Colors
