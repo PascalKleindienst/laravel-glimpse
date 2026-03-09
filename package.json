@@ -1,0 +1,16 @@
+{
+    "scripts": {
+        "build": "vite build",
+        "watch": "vite build --watch"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.11",
+        "@tailwindcss/postcss": "^4.2.1",
+        "autoprefixer": "^10.4.27",
+        "chart.js": "^4.5.1",
+        "laravel-vite-plugin": "^2.1.0",
+        "postcss": "^8.5.8",
+        "tailwindcss": "^4.2.1",
+        "vite": "^7.3.1"
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "resources/css/glimpse.css": {
+    "file": "glimpse.css",
+    "src": "resources/css/glimpse.css",
+    "isEntry": true,
+    "name": "glimpse",
+    "names": [
+      "glimpse.css"
+    ]
+  },
+  "resources/js/glimpse.js": {
+    "file": "glimpse.js",
+    "name": "glimpse",
+    "src": "resources/js/glimpse.js",
+    "isEntry": true
+  }
+}
