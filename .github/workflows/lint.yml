@@ -25,6 +25,10 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
+      # Install Dependencies
+      - name: Install Node Dependencies
+        run: npm i
+
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
