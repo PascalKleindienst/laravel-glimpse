@@ -11,7 +11,7 @@ use RectorLaravel\Set\LaravelSetProvider;
 return RectorConfig::configure()
     ->withSetProviders(LaravelSetProvider::class)
     ->withSets([
-        LaravelLevelSetList::UP_TO_LARAVEL_110,
+        LaravelLevelSetList::UP_TO_LARAVEL_120,
         LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
         LaravelSetList::LARAVEL_ARRAY_STR_FUNCTION_TO_STATIC_CALL,
         LaravelSetList::LARAVEL_CODE_QUALITY,
