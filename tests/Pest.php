@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
+use LaravelGlimpse\Models\GlimpseAggregate;
 use LaravelGlimpse\Tests\TestCase;
 
 pest()->extend(TestCase::class)
@@ -67,4 +68,29 @@ function mockParserResult(array $overrides = []): ResultInterface
     ];
 
     return mock(ResultInterface::class, array_merge($default, $overrides));
+}
+
+// ---------------------------------------------------------------------------
+// Helper — seed aggregate rows directly so tests don't depend on AggregationService
+// ---------------------------------------------------------------------------
+
+function seedAggregate(
+    string $metric,
+    ?string $dimension,
+    float $value,
+    int $count,
+    string $period = 'hourly',
+    ?string $date = null,
+    ?int $hour = null,
+): GlimpseAggregate {
+    return GlimpseAggregate::query()->create([
+        'period' => $period,
+        'date' => $date ?? today()->toDateString(),
+        'hour' => $hour ?? -1,
+        'metric' => $metric,
+        'dimension' => $dimension ?? '-',
+        'value' => $value,
+        'count' => $count,
+        'aggregated_at' => now(),
+    ]);
 }

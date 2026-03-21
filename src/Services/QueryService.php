@@ -137,15 +137,15 @@ final readonly class QueryService implements QueryServiceContract
     public function summary(DateRange $range): array
     {
         $period = $this->choosePeriod($range);
-
         $rows = GlimpseAggregate::query()
+            ->selectRaw('metric, SUM(`count`) as count, AVG(`value`) as value')
             ->where('period', $period)
             ->whereBetween('date', [$range->from->toDateTimeString(), $range->to->toDateTimeString()])
             ->where('dimension', '-')
+            ->groupBy('metric')
             // TODO: enum???
             ->whereIn('metric', ['visitors', 'page_views', 'bounce_rate', 'avg_duration', 'avg_time_on_page'])
-            ->get(['metric', 'value', 'count']);
-
+            ->get(['metric', 'value', 'count', 'date']);
         $byMetric = $rows->keyBy('metric');
 
         return [
@@ -180,14 +180,14 @@ final readonly class QueryService implements QueryServiceContract
         if ($period === 'hourly') {
             $cursor->startOfHour();
             while ($cursor->lte($range->to)) {
-                $key = $cursor->format('Y-m-d').':'.$cursor->hour;
+                $key = $cursor->toDateString().':'.$cursor->hour;
                 $buckets[$key] = $cursor->format('j M H:i');
                 $cursor->addHour();
             }
         } else {
             $cursor->startOfDay();
             while ($cursor->lte($range->to)) {
-                $key = $cursor->toDateTimeString().':null';
+                $key = $cursor->toDateString().':null';
                 $buckets[$key] = $cursor->format('j M');
                 $cursor->addDay();
             }
@@ -198,7 +198,7 @@ final readonly class QueryService implements QueryServiceContract
 
     private function bucketKey(GlimpseAggregate $row): string
     {
-        return $row->date->toDateTimeString().':'.($row->hour >= 0 ? $row->hour : 'null');
+        return $row->date->toDateString().':'.($row->hour >= 0 ? $row->hour : 'null');
     }
 
     /**
