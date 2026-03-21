@@ -24,7 +24,7 @@ jobs:
             testbench: 10.*
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,10 +33,50 @@ jobs:
           extensions: dom, curl, libxml, mbstring, sqlite, gd, zip
           coverage: none
 
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      # Setup Caches
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ matrix.php }}-
+            ${{ runner.os }}-composer-
+
+      - name: Rector Cache
+        uses: actions/cache@v5
+        with:
+          path: /tmp/rector
+          key: ${{ runner.os }}-rector-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-rector-${{ matrix.php }}-
+      - run: mkdir -p /tmp/rector
+
+      - name: PHPStan Cache
+        uses: actions/cache@v5
+        with:
+          path: /tmp/phpstan
+          key: ${{ runner.os }}-phpstan-${{ matrix.php }}-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-phpstan-${{ matrix.php }}-
+      - run: mkdir -p /tmp/phpstan
+
       - name: Setup problem matchers
         run: |
           echo "::add-matcher::${{ runner.tool_cache }}/php.json"
           echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      # Install Dependencies
+      - name: Install Node Dependencies
+        run: npm i
 
       - name: Install dependencies
         run: |
