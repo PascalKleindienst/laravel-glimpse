@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Jobs;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Queue\Queueable;
 use LaravelGlimpse\Contracts\Resolver;
 use LaravelGlimpse\Data\VisitData;
 use LaravelGlimpse\Models\GlimpseSession;
@@ -16,10 +13,7 @@ use LaravelGlimpse\Services\SessionTrackerService;
 
 final class ProcessVisitJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
     use Queueable;
-    use SerializesModels;
 
     /**
      * Maximum retry attempts before discarding the job.
@@ -50,7 +44,7 @@ final class ProcessVisitJob implements ShouldQueue
 
         $data = collect(config('glimpse.resolver', [])) // @phpstan-ignore-line
             ->keys()
-            ->map(fn (string $class) => app($class))
+            ->map(fn (string $class) => resolve($class))
             ->filter(fn (object $instance): bool => $instance instanceof Resolver)
             ->flatMap(fn (Resolver $resolver): array => $resolver->resolve($request));
 

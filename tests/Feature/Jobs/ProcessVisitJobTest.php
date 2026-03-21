@@ -52,7 +52,7 @@ function createVisitData(array $overwrite = []): VisitData
 
 it('creates new session and page view for new visitor', function (): void {
     $job = new ProcessVisitJob(createVisitData());
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseHas('glimpse_sessions', [
         'session_hash' => 'new-session-hash-123',
@@ -94,7 +94,7 @@ it('updates existing session for returning visitor', function (): void {
         'referer' => 'http://example.com/home',
         'isNewSession' => false,
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseHas('glimpse_sessions', [
         'page_view_count' => 2,
@@ -114,7 +114,7 @@ it('does not create session when session was pruned', function (): void {
         'path' => '/page',
         'isNewSession' => false,
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseMissing('glimpse_sessions', ['session_hash' => 'pruned-session-hash']);
     assertDatabaseMissing('glimpse_page_views', ['session_hash' => 'pruned-session-hash']);
@@ -130,7 +130,7 @@ it('does not record bot as new session', function (): void {
         'referer' => null,
         'acceptLanguage' => null,
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseMissing('glimpse_sessions', ['session_hash' => 'bot-session-hash']);
     assertDatabaseMissing('glimpse_page_views', ['session_hash' => 'bot-session-hash']);
@@ -145,7 +145,7 @@ it('records page view with query string', function (): void {
         'queryString' => 'q=test',
         'userAgent' => 'Mozilla/5.0 Chrome/120.0',
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseHas('glimpse_page_views', ['session_hash' => 'query-session-hash', 'query_string' => 'q=test']);
 });
@@ -159,7 +159,7 @@ it('records page view with referer', function (): void {
         'userAgent' => 'Mozilla/5.0 Chrome/120.0',
         'referer' => 'http://google.com/search',
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     assertDatabaseHas('glimpse_page_views', ['session_hash' => 'referer-session-hash', 'referrer' => 'http://google.com/search']);
 });
@@ -187,7 +187,7 @@ it('closes previous page view time_on_page on subsequent hit', function (): void
         'hitAt' => CarbonImmutable::now()->addSeconds(30),
         'isNewSession' => false,
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     $firstPageView->refresh();
 
@@ -203,7 +203,7 @@ it('creates session with resolver data', function (): void {
         'userAgent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0',
         'referer' => 'https://google.com/search?q=test',
     ]));
-    $job->handle(app(SessionTrackerService::class));
+    $job->handle(resolve(SessionTrackerService::class));
 
     $session = GlimpseSession::query()->where('session_hash', 'resolver-session-hash')->first();
 

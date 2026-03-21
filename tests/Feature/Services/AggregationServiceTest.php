@@ -60,7 +60,7 @@ describe('visitor and session metrics', function (): void {
         makeSession(['started_at' => $now, 'last_seen_at' => $now]);
         makeSession(['started_at' => $now, 'last_seen_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $visitors = GlimpseAggregate::query()->where('metric', 'visitors')->where('dimension', '-')->first();
         expect($visitors)->not->toBeNull()
@@ -74,7 +74,7 @@ describe('visitor and session metrics', function (): void {
         makeSession(['started_at' => $now, 'is_bounce' => true,  'page_view_count' => 1]);
         makeSession(['started_at' => $now, 'is_bounce' => false, 'page_view_count' => 3]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $bounceRate = GlimpseAggregate::query()->where('metric', 'bounce_rate')->where('dimension', '-')->first();
         expect($bounceRate)->not->toBeNull()
@@ -88,7 +88,7 @@ describe('visitor and session metrics', function (): void {
         makeSession(['started_at' => $now, 'duration_seconds' => 60]);
         makeSession(['started_at' => $now, 'duration_seconds' => 120]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $avg = GlimpseAggregate::query()->where('metric', 'avg_duration')->where('dimension', '-')->first();
         expect($avg->value)->toBe(90.0);
@@ -104,7 +104,7 @@ describe('page view metrics', function (): void {
         makePageView($sess->session_hash, ['created_at' => $now]);
         makePageView($sess->session_hash, ['created_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $pv = GlimpseAggregate::query()
             ->where('metric', 'page_views')->where('dimension', '-')->first();
@@ -119,7 +119,7 @@ describe('page view metrics', function (): void {
         makePageView($sess->session_hash, ['path' => '/about',   'created_at' => $now]);
         makePageView($sess->session_hash, ['path' => '/pricing', 'created_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $about = GlimpseAggregate::query()
             ->where('metric', 'page_views')
@@ -138,7 +138,7 @@ describe('custom event metrics', function (): void {
         makeEvent('signup', null, ['created_at' => $now]);
         makeEvent('checkout', null, ['created_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $signup = GlimpseAggregate::query()
             ->where('metric', 'events')
@@ -164,7 +164,7 @@ describe('dimensional breakdown (country, browser, etc.)', function (): void {
         makeSession(['started_at' => $now, 'country_code' => 'DE']);
         makeSession(['started_at' => $now, 'country_code' => 'US']);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $de = GlimpseAggregate::query()
             ->where('metric', 'visitors')
@@ -181,7 +181,7 @@ describe('dimensional breakdown (country, browser, etc.)', function (): void {
         makeSession(['started_at' => $now, 'platform' => 'mobile']);
         makeSession(['started_at' => $now, 'platform' => 'desktop']);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subMinute(), $now->copy()->addMinute());
 
         $mobile = GlimpseAggregate::query()
             ->where('metric', 'visitors')
@@ -201,7 +201,7 @@ describe('idempotency', function (): void {
         makeSession(['started_at' => $now]);
         makeSession(['started_at' => $now]);
 
-        $service = app(AggregationServiceContract::class);
+        $service = resolve(AggregationServiceContract::class);
         $service->aggregate($from, $to);
         $service->aggregate($from, $to); // second run — should upsert, not duplicate
 
@@ -219,7 +219,7 @@ describe('hourly vs daily period selection', function (): void {
         $now = Date::now();
         makeSession(['started_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subHour(), $now->copy()->addHour());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subHour(), $now->copy()->addHour());
 
         assertDatabaseHas('glimpse_aggregates', [
             'period' => 'hourly',
@@ -232,7 +232,7 @@ describe('hourly vs daily period selection', function (): void {
         $now = Date::now();
         makeSession(['started_at' => $now]);
 
-        app(AggregationServiceContract::class)->aggregate($now->copy()->subDays(3), $now->copy());
+        resolve(AggregationServiceContract::class)->aggregate($now->copy()->subDays(3), $now->copy());
 
         assertDatabaseHas('glimpse_aggregates', [
             'period' => 'daily',

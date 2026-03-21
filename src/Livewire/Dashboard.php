@@ -45,7 +45,7 @@ final class Dashboard extends Component
     #[Computed]
     public function summary(): array
     {
-        return app(QueryServiceContract::class)->summary($this->dateRange);
+        return resolve(QueryServiceContract::class)->summary($this->dateRange);
     }
 
     /**
@@ -60,7 +60,7 @@ final class Dashboard extends Component
     #[Computed]
     public function previousSummary(): array
     {
-        return app(QueryServiceContract::class)->previousPeriodSummary($this->dateRange);
+        return resolve(QueryServiceContract::class)->previousPeriodSummary($this->dateRange);
     }
 
     public function render(): View

@@ -39,7 +39,7 @@ it('deletes raw sessions, page views, and events beyond the retention window', f
     GlimpsePageView::query()->create(['session_hash' => $recent->session_hash, 'url' => '/y', 'path' => '/y', 'created_at' => Date::now()->subDays(5)]);
     GlimpseEvent::query()->create(['name' => 'new', 'created_at' => Date::now()->subDays(5)]);
 
-    $counts = app(PruneService::class)->prune();
+    $counts = resolve(PruneService::class)->prune();
 
     expect($counts['sessions'])->toBe(1)
         ->and($counts['page_views'])->toBe(1)
@@ -61,7 +61,7 @@ it('does not prune aggregates when retention is null (forever)', function (): vo
         'aggregated_at' => now(),
     ]);
 
-    app(PruneService::class)->prune();
+    resolve(PruneService::class)->prune();
 
     expect(GlimpseAggregate::query()->count())->toBe(1);
 });
@@ -78,7 +78,7 @@ it('prunes aggregate data when a retention limit is set', function (): void {
         'aggregated_at' => now(),
     ]);
 
-    $counts = app(PruneService::class)->prune();
+    $counts = resolve(PruneService::class)->prune();
 
     expect($counts['aggregates'])->toBe(1)
         ->and(GlimpseAggregate::query()->count())->toBe(0);

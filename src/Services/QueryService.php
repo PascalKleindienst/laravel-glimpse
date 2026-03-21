@@ -206,12 +206,14 @@ final readonly class QueryService implements QueryServiceContract
      */
     private function topDimension(DateRange $range, string $metric, string $dimensionPrefix, int $limit): Collection
     {
+        $prefixLength = Str::length($dimensionPrefix) + 2;
+
         return GlimpseAggregate::query()
             ->where('period', $this->choosePeriod($range))
             ->whereBetween('date', [$range->from->toDateTimeString(), $range->to->toDateTimeString()])
             ->where('metric', $metric)
             ->where('dimension', 'like', "{$dimensionPrefix}:%")
-            ->selectRaw('SUBSTRING(dimension, '.(Str::length($dimensionPrefix) + 2).') as dimension, SUM(`count`) as total_count')
+            ->selectRaw("SUBSTRING(dimension, {$prefixLength}) as dimension, SUM(`count`) as total_count") // @phpstan-ignore-line
             ->groupBy('dimension')
             ->orderByDesc('total_count')
             ->limit($limit)

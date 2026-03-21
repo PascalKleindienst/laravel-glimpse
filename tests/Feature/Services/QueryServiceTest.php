@@ -11,7 +11,7 @@ use LaravelGlimpse\Values\DateRange;
 // ---------------------------------------------------------------------------
 
 it('returns zeroed summary when no data exists', function (): void {
-    $service = app(QueryServiceContract::class);
+    $service = resolve(QueryServiceContract::class);
     $summary = $service->summary(DateRange::today());
 
     expect($summary['visitors'])->toBe(0)
@@ -26,7 +26,7 @@ it('returns correct summary values from aggregate data', function (): void {
     seedAggregate('bounce_rate', null, 42.5, 100);
     seedAggregate('avg_duration', null, 127.3, 100);
 
-    $service = app(QueryServiceContract::class);
+    $service = resolve(QueryServiceContract::class);
     $summary = $service->summary(DateRange::today());
 
     expect($summary['visitors'])->toBe(100)
@@ -44,7 +44,7 @@ it('returns top pages sorted by view count', function (): void {
     seedAggregate('page_views', 'path:/pricing', 0, 200);
     seedAggregate('page_views', 'path:/about', 0, 50);
 
-    $pages = app(QueryServiceContract::class)->topPages(DateRange::today(), 10);
+    $pages = resolve(QueryServiceContract::class)->topPages(DateRange::today(), 10);
 
     expect($pages->first()['path'])->toBe('/home')
         ->and($pages->first()['views'])->toBe(500)
@@ -54,7 +54,7 @@ it('returns top pages sorted by view count', function (): void {
 it('strips the path: prefix correctly from top pages', function (): void {
     seedAggregate('page_views', 'path:/contact', 0, 10);
 
-    $pages = app(QueryServiceContract::class)->topPages(DateRange::today());
+    $pages = resolve(QueryServiceContract::class)->topPages(DateRange::today());
 
     expect($pages->first()['path'])->toBe('/contact');
 });
@@ -68,7 +68,7 @@ it('returns channels sorted by visitor count', function (): void {
     seedAggregate('visitors', 'channel:direct', 0, 150);
     seedAggregate('visitors', 'channel:social', 0, 75);
 
-    $channels = app(QueryServiceContract::class)->topChannels(DateRange::today());
+    $channels = resolve(QueryServiceContract::class)->topChannels(DateRange::today());
 
     expect($channels->first()['channel'])->toBe('organic')
         ->and($channels->first()['visitors'])->toBe(300);
@@ -83,7 +83,7 @@ it('calculates platform percentages correctly', function (): void {
     seedAggregate('visitors', 'platform:mobile', 0, 350);
     seedAggregate('visitors', 'platform:tablet', 0, 50);
 
-    $platforms = app(QueryServiceContract::class)->platformBreakdown(DateRange::today());
+    $platforms = resolve(QueryServiceContract::class)->platformBreakdown(DateRange::today());
 
     $desktop = $platforms->firstWhere('platform', 'desktop');
     $mobile = $platforms->firstWhere('platform', 'mobile');
@@ -100,7 +100,7 @@ it('returns events sorted by occurrence count', function (): void {
     seedAggregate('events', 'event:signup', 0, 80);
     seedAggregate('events', 'event:checkout', 0, 30);
 
-    $events = app(QueryServiceContract::class)->topEvents(DateRange::today());
+    $events = resolve(QueryServiceContract::class)->topEvents(DateRange::today());
 
     expect($events->first()['event'])->toBe('signup')
         ->and($events->first()['count'])->toBe(80);
@@ -115,7 +115,7 @@ it('generates time series with zero-filled buckets for each day', function (): v
     seedAggregate('visitors', null, 0, 10, 'daily', Date::today()->subDays(3)->toDateString());
     seedAggregate('page_views', null, 0, 30, 'daily', Date::today()->subDays(3)->toDateString());
 
-    $series = app(QueryServiceContract::class)->timeSeries(DateRange::last7Days());
+    $series = resolve(QueryServiceContract::class)->timeSeries(DateRange::last7Days());
 
     // Should have 7 buckets (one per day)
     expect($series->count())->toBe(7);
@@ -140,7 +140,7 @@ it('returns referrers sorted by visitor count', function (): void {
     seedAggregate('visitors', 'referrer:twitter.com', 0, 200);
     seedAggregate('visitors', 'referrer:github.com', 0, 50);
 
-    $referrers = app(QueryServiceContract::class)->topReferrers(DateRange::today());
+    $referrers = resolve(QueryServiceContract::class)->topReferrers(DateRange::today());
 
     expect($referrers->first()['domain'])->toBe('google.com')
         ->and($referrers->first()['visitors'])->toBe(500)
@@ -150,7 +150,7 @@ it('returns referrers sorted by visitor count', function (): void {
 it('strips the referrer: prefix correctly from top referrers', function (): void {
     seedAggregate('visitors', 'referrer:example.org', 0, 10);
 
-    $referrers = app(QueryServiceContract::class)->topReferrers(DateRange::today());
+    $referrers = resolve(QueryServiceContract::class)->topReferrers(DateRange::today());
 
     expect($referrers->first()['domain'])->toBe('example.org');
 });
@@ -164,7 +164,7 @@ it('returns countries sorted by visitor count', function (): void {
     seedAggregate('visitors', 'country:DE', 0, 300);
     seedAggregate('visitors', 'country:FR', 0, 150);
 
-    $countries = app(QueryServiceContract::class)->topCountries(DateRange::today());
+    $countries = resolve(QueryServiceContract::class)->topCountries(DateRange::today());
 
     expect($countries->first()['country_code'])->toBe('US')
         ->and($countries->first()['visitors'])->toBe(800)
@@ -180,7 +180,7 @@ it('returns cities sorted by visitor count', function (): void {
     seedAggregate('visitors', 'city:London', 0, 250);
     seedAggregate('visitors', 'city:Berlin', 0, 100);
 
-    $cities = app(QueryServiceContract::class)->topCities(DateRange::today());
+    $cities = resolve(QueryServiceContract::class)->topCities(DateRange::today());
 
     expect($cities->first()['city'])->toBe('New York')
         ->and($cities->first()['visitors'])->toBe(400)
@@ -196,7 +196,7 @@ it('returns languages sorted by visitor count', function (): void {
     seedAggregate('visitors', 'language:de', 0, 200);
     seedAggregate('visitors', 'language:fr', 0, 100);
 
-    $languages = app(QueryServiceContract::class)->topLanguages(DateRange::today());
+    $languages = resolve(QueryServiceContract::class)->topLanguages(DateRange::today());
 
     expect($languages->first()['language'])->toBe('en')
         ->and($languages->first()['visitors'])->toBe(600)
@@ -212,7 +212,7 @@ it('returns browsers sorted by visitor count', function (): void {
     seedAggregate('visitors', 'browser:Firefox', 0, 200);
     seedAggregate('visitors', 'browser:Safari', 0, 100);
 
-    $browsers = app(QueryServiceContract::class)->topBrowsers(DateRange::today());
+    $browsers = resolve(QueryServiceContract::class)->topBrowsers(DateRange::today());
 
     expect($browsers->first()['browser'])->toBe('Chrome')
         ->and($browsers->first()['visitors'])->toBe(700)
@@ -228,7 +228,7 @@ it('returns operating systems sorted by visitor count', function (): void {
     seedAggregate('visitors', 'os:macOS', 0, 300);
     seedAggregate('visitors', 'os:Linux', 0, 100);
 
-    $os = app(QueryServiceContract::class)->topOs(DateRange::today());
+    $os = resolve(QueryServiceContract::class)->topOs(DateRange::today());
 
     expect($os->first()['os'])->toBe('Windows')
         ->and($os->first()['visitors'])->toBe(500)
@@ -245,7 +245,7 @@ it('queries the previous equivalent period for comparison', function (): void {
     // Seed last week
     seedAggregate('visitors', null, 0, 40, 'daily', today()->subWeek()->toDateString());
 
-    $service = app(QueryServiceContract::class);
+    $service = resolve(QueryServiceContract::class);
     $current = $service->summary(DateRange::last7Days());
     $previous = $service->previousPeriodSummary(DateRange::last7Days());
 
