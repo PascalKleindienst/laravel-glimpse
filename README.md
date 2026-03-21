@@ -1,5 +1,11 @@
 # ⚡ Glimpse Analytics
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/pascalkleindienst/laravel-glimpse.svg?style=flat-square)](https://packagist.org/packages/pascalkleindienst/laravel-glimpse)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/tests.yml?query=branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/lint.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/lint.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/PascalKleindienst/laravel-glimpse/graph/badge.svg?token=MelHC4atzv)](https://codecov.io/gh/PascalKleindienst/laravel-glimpse)
+[![Total Downloads](https://img.shields.io/packagist/dt/pascalkleindienst/laravel-glimpse.svg?style=flat-square)](https://packagist.org/packages/pascalkleindienst/laravel-glimpse)
+
 **Privacy-first, server-side analytics for Laravel 12+.**  
 No cookies. No JavaScript tracking pixel. No GDPR consent banners.  
 Just clean, fast, anonymous analytics built entirely on the server.
@@ -26,8 +32,8 @@ Just clean, fast, anonymous analytics built entirely on the server.
 
 | Dependency | Version      |
 |------------|--------------|
-| PHP        | ^8.4         |
-| Laravel    | ^12.0        |
+| PHP        | ^8.4\|^8.5   |
+| Laravel    | ^12.0\|^13.0 |
 | Livewire   | ^3.6.4\|^4.0 |
 
 ---
