@@ -28,7 +28,8 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
 
     protected function defineEnvironment($app): void
     {
-        // Setup default database to use sqlite :memory:
+        $app->make(Repository::class)->set('view.cache', false);
+
         tap($app->make(Repository::class), function (Repository $config): void {
             // Setup queue database connections.
             $config->set([

@@ -21,6 +21,7 @@ arch('avoid mutation')
         'LaravelGlimpse\Jobs',
         'LaravelGlimpse\Models',
         'LaravelGlimpse\Console\Commands',
+        'LaravelGlimpse\Livewire',
         GeoResolver::class,
         GlimpseServiceProvider::class,
     ]);

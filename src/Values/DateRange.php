@@ -6,6 +6,7 @@ namespace LaravelGlimpse\Values;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Date;
+use Livewire\Wireable;
 use Stringable;
 
 use function sprintf;
@@ -20,7 +21,7 @@ use function sprintf;
  *   DateRange::custom($from, $to)
  *   DateRange::fromPreset('7d')
  */
-final readonly class DateRange implements Stringable
+final readonly class DateRange implements Stringable, Wireable
 {
     public Carbon $from;
 
@@ -106,6 +107,14 @@ final readonly class DateRange implements Stringable
     }
 
     /**
+     * @param  array{from: Carbon, to: Carbon, preset: string}  $value
+     */
+    public static function fromLivewire($value): self // @pest-ignore-type
+    {
+        return new self($value['from'], $value['to'], $value['preset']);
+    }
+
+    /**
      * Return the equivalent previous period (same duration, immediately before).
      */
     public function previousPeriod(): self
@@ -136,5 +145,17 @@ final readonly class DateRange implements Stringable
             'month' => 'This month',
             default => $this->from->format('M j').' – '.$this->to->format('M j, Y'),
         };
+    }
+
+    /**
+     * @return array{from: Carbon, to: Carbon, preset: string}
+     */
+    public function toLivewire(): array
+    {
+        return [
+            'from' => $this->from,
+            'to' => $this->to,
+            'preset' => $this->preset,
+        ];
     }
 }

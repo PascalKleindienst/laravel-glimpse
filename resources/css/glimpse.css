@@ -3,7 +3,13 @@
 @source '../views';
 @source '../**/*.js';
 @source '../**/*.ts';
+@source inline('{,sm:,md:,lg:,xl:,default:,default:lg:}col-span-{full,{1..12}}');
+@source inline('{,sm:,md:,lg:,xl:,default:,default:lg:}row-span-{full,{1..12}}');
 
+@custom-variant default (html :where(&));
+@custom-variant scrollbar (&::-webkit-scrollbar);
+@custom-variant scrollbar-track (&::-webkit-scrollbar-track);
+@custom-variant scrollbar-thumb (&::-webkit-scrollbar-thumb);
 @custom-variant dark (&:where(.dark, .dark *));
 
 /**
@@ -12,4 +18,54 @@
 @theme {
     --font-sans: Avenir, Montserrat, Corbel, 'URW Gothic', source-sans-pro, sans-serif;
     --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+
+    --color-accent: var(--color-teal-600);
+    --color-accent-content: var(--color-teal-400);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    ::view-transition-group(root) {
+        animation-duration: 300ms;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .transition,
+        ::view-transition-group(root),
+        *[class*='animate-'],
+        *[class*='after:animate-']:after,
+        *[class*='before\:animate-']:before {
+            animation-duration: 0s !important;
+            animation-delay: 0s !important;
+            transition-duration: 0s !important;
+            transition-delay: 0s !important;
+        }
+    }
+}
+
+@layer base {
+    .animate-row-in {
+        animation: row-in 0.3s ease both;
+    }
+
+    @keyframes grow {
+        from {
+            max-width: 0;
+        }
+        to {
+            max-width: var(--_width, 100%);
+        }
+    }
+
+    @keyframes row-in {
+        from {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }

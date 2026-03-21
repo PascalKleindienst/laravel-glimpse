@@ -7,8 +7,13 @@ namespace LaravelGlimpse;
 use Composer\InstalledVersions;
 use hisorange\BrowserDetect\Contracts\ParserInterface;
 use hisorange\BrowserDetect\Parser;
+use Illuminate\Contracts\Config\Repository;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 use LaravelGlimpse\Console\Commands\AggregateMetricsCommand;
 use LaravelGlimpse\Console\Commands\BackfillDataCommand;
 use LaravelGlimpse\Console\Commands\InstallGlimpseCommand;
@@ -16,8 +21,16 @@ use LaravelGlimpse\Console\Commands\PruneDataCommand;
 use LaravelGlimpse\Contracts\AggregationServiceContract;
 use LaravelGlimpse\Contracts\PruneServiceContract;
 use LaravelGlimpse\Contracts\QueryServiceContract;
+use LaravelGlimpse\Livewire\Dashboard;
+use LaravelGlimpse\Livewire\Metrics\DevicesBreakdown;
+use LaravelGlimpse\Livewire\Metrics\EventsTable;
+use LaravelGlimpse\Livewire\Metrics\GeoBreakdown;
+use LaravelGlimpse\Livewire\Metrics\PagesTable;
+use LaravelGlimpse\Livewire\Metrics\ReferrersTable;
+use LaravelGlimpse\Livewire\Metrics\VisitorsChart;
 use LaravelGlimpse\Services\AggregationService;
 use LaravelGlimpse\Services\QueryService;
+use Livewire\Livewire;
 use Override;
 
 final class GlimpseServiceProvider extends ServiceProvider
@@ -38,10 +51,13 @@ final class GlimpseServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Number::useLocale(app()->getLocale());
+
         $this->registerPublishing();
         $this->registerCommands();
         $this->registerRoutes();
         $this->registerMigrations();
+        $this->registerComponents();
     }
 
     private function registerPublishing(): void
@@ -61,6 +77,10 @@ final class GlimpseServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/glimpse'),
         ], 'glimpse-views');
+
+        $this->publishes([
+            __DIR__.'/../public/vendor/glimpse' => public_path('vendor/glimpse'),
+        ], 'glimpse-assets');
     }
 
     private function registerCommands(): void
@@ -85,11 +105,42 @@ final class GlimpseServiceProvider extends ServiceProvider
 
     private function registerRoutes(): void
     {
-        // TODO
+        $this->callAfterResolving('router', function (Router $router, Application $app): void {
+            $router->group([
+                'prefix' => $app->make(Repository::class)->get('glimpse.path'),
+                'middleware' => $app->make(Repository::class)->get('glimpse.middleware'),
+                'name' => 'glimpse.',
+            ], function (Router $router): void {
+                $router->get('/', Dashboard::class)->name('dashboard');
+            });
+        });
     }
 
     private function registerMigrations(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+    }
+
+    private function registerComponents(): void
+    {
+        // Register view namespace so blade can resolve glimpse:: views.
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'glimpse');
+
+        $this->callAfterResolving('blade.compiler', function (BladeCompiler $blade): void {
+            $blade->anonymousComponentPath(__DIR__.'/../resources/views/components', 'glimpse');
+        });
+
+        // $this->callAfterResolving('livewire', function (LivewireManager $livewire, Application $app) {
+        //     // Register all Livewire components under the glimpse. prefix.
+        //     $livewire->component('dashboard', Dashboard::class);
+        // });
+
+        Livewire::component('glimpse.dashboard', Dashboard::class);
+        Livewire::component('glimpse.devices-breakdown', DevicesBreakdown::class);
+        Livewire::component('glimpse.events-table', EventsTable::class);
+        Livewire::component('glimpse.geo-breakdown', GeoBreakdown::class);
+        Livewire::component('glimpse.pages-table', PagesTable::class);
+        Livewire::component('glimpse.referrers-table', ReferrersTable::class);
+        Livewire::component('glimpse.visitors-chart', VisitorsChart::class);
     }
 }
