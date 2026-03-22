@@ -3,7 +3,7 @@ template: |
 
   $CHANGES
 
-  **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ previous_tag }}...${{ tag }}
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
 
 categories:
   - title: 🚀 Features
@@ -42,6 +42,8 @@ categories:
       - maintenance
       - maintenance
 
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
 change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 group-template: '- $TITLE (#$NUMBER) @$AUTHOR'
 no-changes-template: '> No significant changes.'
