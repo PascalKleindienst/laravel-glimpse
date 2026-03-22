@@ -40,6 +40,32 @@ categories:
     labels:
       - chore
       - maintenance
+  - title: ⚠️ BREAKING CHANGES
+    labels:
+      - breaking
+      - BREAKING CHANGE
+
+version-resolver:
+  major:
+    labels:
+      - breaking
+      - BREAKING CHANGE
+  minor:
+    labels:
+      - feat
+      - feature
+      - enhancement
+  patch:
+    labels:
+      - bug
+      - fix
+      - refactor
+      - refactoring
+      - performance
+      - documentation
+      - docs
+      - ci
+      - chore
       - maintenance
 
 name-template: 'v$RESOLVED_VERSION'
