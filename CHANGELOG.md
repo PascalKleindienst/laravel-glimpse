@@ -8,6 +8,18 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## v0.2.0 - 2026-03-22
+
+### What's Changed
+
+- chore(deps): bump actions/checkout from 5 to 6 (#1) @[dependabot[bot]](https://github.com/apps/dependabot)
+
+### 🚀 Features
+
+- feat: add custom dispatched event (#2) @PascalKleindienst
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.1.0...v0.2.0
+
 ## v0.1.0 - 2026-03-22
 
 ### What's Changed
