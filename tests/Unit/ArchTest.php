@@ -17,6 +17,7 @@ arch('avoid mutation')
     ->classes()
     ->toBeReadonly()
     ->ignoring([
+        'LaravelGlimpse\Exceptions',
         'LaravelGlimpse\Facades',
         'LaravelGlimpse\Jobs',
         'LaravelGlimpse\Models',
@@ -31,6 +32,7 @@ arch('avoid inheritance')
     ->classes()
     ->toExtendNothing()
     ->ignoring([
+        'LaravelGlimpse\Exceptions',
         'LaravelGlimpse\Models',
         'LaravelGlimpse\Console\Commands',
         'LaravelGlimpse\Jobs',
