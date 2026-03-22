@@ -8,7 +8,7 @@ use LaravelGlimpse\Events\GlimpseEventDispatchedEvent;
 use LaravelGlimpse\Models\GlimpseEvent;
 
 it('creates event with all properties', function (): void {
-    $mockEvent = GlimpseEvent::newModelInstance();
+    $mockEvent = GlimpseEvent::query()->newModelInstance();
     $payload = ['plan' => 'pro', 'value' => 99];
 
     $event = new GlimpseEventDispatchedEvent(
@@ -25,7 +25,7 @@ it('creates event with all properties', function (): void {
 });
 
 it('creates event with null session hash', function (): void {
-    $mockEvent = GlimpseEvent::newModelInstance();
+    $mockEvent = GlimpseEvent::query()->newModelInstance();
     $payload = ['step' => 1];
 
     $event = new GlimpseEventDispatchedEvent(
@@ -42,7 +42,7 @@ it('creates event with null session hash', function (): void {
 });
 
 it('creates event with empty payload', function (): void {
-    $mockEvent = GlimpseEvent::newModelInstance();
+    $mockEvent = GlimpseEvent::query()->newModelInstance();
 
     $event = new GlimpseEventDispatchedEvent(
         name: 'simple_event',
@@ -57,7 +57,7 @@ it('creates event with empty payload', function (): void {
 });
 
 it('creates event with nested payload', function (): void {
-    $mockEvent = GlimpseEvent::newModelInstance();
+    $mockEvent = GlimpseEvent::query()->newModelInstance();
     $payload = [
         'user' => ['id' => 123, 'name' => 'John'],
         'metadata' => ['source' => 'api', 'count' => 5],
