@@ -1,0 +1,65 @@
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/${{ github.repository }}/compare/${{ previous_tag }}...${{ tag }}
+
+categories:
+  - title: 🚀 Features
+    labels:
+      - feat
+      - feature
+      - enhancement
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+      - fix
+  - title: 📖 Documentation
+    labels:
+      - documentation
+      - docs
+  - title: ♻️ Refactoring
+    labels:
+      - refactoring
+      - refactor
+  - title: ⚡ Performance
+    labels:
+      - performance
+      - perf
+  - title: 🔧 Build & CI
+    labels:
+      - build
+      - ci
+      - dependencies
+  - title: 🧪 Testing
+    labels:
+      - test
+      - tests
+  - title: 🛠️ Maintenance
+    labels:
+      - chore
+      - maintenance
+      - maintenance
+
+change-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+group-template: '- $TITLE (#$NUMBER) @$AUTHOR'
+no-changes-template: '> No significant changes.'
+sort-by: title
+sort-direction: ascending
+template-colors:
+  # Default colors from Keep a Changelog
+  heights:
+    added: 3
+    changed: 4
+    deprecated: 5
+    removed: 6
+    fixed: 3
+    security: 3
+  colors:
+    added: '3FB950'
+    changed: 'F0883E'
+    deprecated: 'F85149'
+    removed: 'F85149'
+    fixed: 'F85149'
+    security: 'F85149'
