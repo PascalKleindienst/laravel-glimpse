@@ -52,7 +52,10 @@ final class InstallGlimpseCommand extends Command
             });
         }
 
-        // TODO: register middleware
+        // register middleware
+        if (! $this->option('skip-middleware')) {
+            $this->components->task('Registering TrackVisitor middleware', fn (): bool => $this->injectMiddleware());
+        }
 
         // health check / info
         $this->printEnvHints();
@@ -88,7 +91,7 @@ final class InstallGlimpseCommand extends Command
         $this->line('    <fg=gray>GLIMPSE_ENABLED=true</>');
         $this->line('    <fg=gray>GLIMPSE_QUEUE=default           # queue for async processing</>');
         $this->line('    <fg=gray>GLIMPSE_SESSION_TIMEOUT=30      # minutes before new session</>');
-        // $this->line('    <fg=gray>GLIMPSE_GEO_DRIVER=null         # null | maxmind | sxgeo</>');
+        $this->line('    <fg=gray>GLIMPSE_GEO_DRIVER=null         # null | maxmind | sxgeo</>');
         $this->line('    <fg=gray>GLIMPSE_RETENTION_RAW=90        # days to keep raw rows</>');
         $this->newLine();
         $this->line('  <fg=yellow>Ensure your scheduler is running:</> ');
@@ -98,7 +101,7 @@ final class InstallGlimpseCommand extends Command
         $this->line('  <fg=yellow>Optionally customise the dashboard gate:</> ');
         $this->newLine();
         $this->line('    <fg=gray>// In a ServiceProvider boot() method:</>');
-        $this->line('    <fg=gray>BeaconGate::using(fn ($request) => $request->user()?->isAdmin());</>');
+        $this->line('    <fg=gray>GlimpseGate::using(fn ($request) => $request->user()?->isAdmin());</>');
         $this->newLine();
     }
 
@@ -125,10 +128,10 @@ final class InstallGlimpseCommand extends Command
 
         // Middleware
         $bootstrapPath = base_path('bootstrap/app.php');
-        $mwRegistered = File::exists($bootstrapPath) && str_contains(File::get($bootstrapPath), 'TrackVisitor');
+        $mwRegistered = File::exists($bootstrapPath) && str_contains(File::get($bootstrapPath), 'TrackVisitorMiddleware');
         $this->line($mwRegistered
-            ? '    <fg=green>✓</> TrackVisitor middleware registered'
-            : '    <fg=yellow>⚠</> TrackVisitor middleware not detected — add it manually to bootstrap/app.php');
+            ? '    <fg=green>✓</> TrackVisitorMiddleware middleware registered'
+            : '    <fg=yellow>⚠</> TrackVisitorMiddleware middleware not detected — add it manually to bootstrap/app.php');
     }
 
     private function checkDatabase(): bool
@@ -141,5 +144,39 @@ final class InstallGlimpseCommand extends Command
         } catch (Throwable) {
             return false;
         }
+    }
+
+    /**
+     * Attempt to inject the TrackVisitor middleware into bootstrap/app.php
+     * by finding the ->withMiddleware() block.
+     */
+    private function injectMiddleware(): bool
+    {
+        $bootstrapPath = base_path('bootstrap/app.php');
+
+        if (! File::exists($bootstrapPath)) {
+            return false;
+        }
+
+        $contents = File::get($bootstrapPath);
+
+        // already registered -> nothing to do
+        if (str_contains($contents, 'TrackVisitorMiddleware')) {
+            return true;
+        }
+
+        // Try to find `->withMiddleware()` and append inside `web()` call.
+        $needle = '->withMiddleware(function (Middleware $middleware) {';
+        $replacement = $needle.PHP_EOL
+            .'        $middleware->web(append: ['.PHP_EOL
+            .'            \\LaravelGlimpse\\Http\\Middleware\\TrackVisitorMiddleware::class,'.PHP_EOL
+            .'        ]);';
+
+        if (str_contains($contents, $needle)) {
+            return File::put($bootstrapPath, str_replace($needle, $replacement, $contents)) !== false;
+        }
+
+        // Pattern not found -> print manual instructions instead
+        return false;
     }
 }
