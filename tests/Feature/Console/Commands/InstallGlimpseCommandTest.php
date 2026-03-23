@@ -93,12 +93,12 @@ it('displays middleware warning when TrackVisitor is not registered', function (
 it('displays middleware ok when TrackVisitor is registered', function (): void {
     File::put(
         base_path('bootstrap/app.php'),
-        '<?php'."\n".'$app->middleware->prepend(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);'."\n".'TrackVisitor::class,'
+        '<?php'."\n".'$app->middleware->prepend(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);'."\n".'TrackVisitorMiddleware::class,'
     );
 
     artisan('glimpse:install', ['--skip-migrate' => true])
         ->assertSuccessful()
-        ->expectsOutputToContain('TrackVisitor middleware registered');
+        ->expectsOutputToContain('TrackVisitorMiddleware middleware registered');
 });
 
 it('accepts force option for re-publishing', function (): void {

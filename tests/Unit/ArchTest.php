@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use LaravelGlimpse\Contracts\Resolver;
+use LaravelGlimpse\GlimpseGate;
 use LaravelGlimpse\GlimpseServiceProvider;
 use LaravelGlimpse\Resolvers\GeoResolver;
 
@@ -25,6 +26,7 @@ arch('avoid mutation')
         'LaravelGlimpse\Livewire',
         GeoResolver::class,
         GlimpseServiceProvider::class,
+        GlimpseGate::class,
     ]);
 
 arch('avoid inheritance')
