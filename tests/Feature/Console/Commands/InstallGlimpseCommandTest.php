@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
@@ -91,14 +92,45 @@ it('displays middleware warning when TrackVisitor is not registered', function (
 });
 
 it('displays middleware ok when TrackVisitor is registered', function (): void {
-    File::put(
-        base_path('bootstrap/app.php'),
-        '<?php'."\n".'$app->middleware->prepend(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);'."\n".'TrackVisitorMiddleware::class,'
-    );
+    File::partialMock();
+    File::shouldReceive('get')->atLeast()
+        ->with(base_path('bootstrap/app.php'))
+        ->andReturn('->withMiddleware(function (Middleware $middleware) {');
+
+    File::shouldReceive('put')
+        ->once()
+        ->with(
+            base_path('bootstrap/app.php'),
+            '->withMiddleware(function (Middleware $middleware) {'.PHP_EOL
+            .'        $middleware->web(append: ['.PHP_EOL
+            .'            \\LaravelGlimpse\\Http\\Middleware\\TrackVisitorMiddleware::class,'.PHP_EOL
+            .'        ]);'
+        )
+        ->andReturnTrue();
+
+    artisan('glimpse:install', ['--skip-migrate' => true])
+        ->assertSuccessful();
+});
+
+it('shows a message when TrackVisitor is could not be registered because bootstrap/app.php does not exist', function (): void {
+    File::partialMock()->shouldReceive('exists')->with(base_path('bootstrap/app.php'))->andReturnFalse();
 
     artisan('glimpse:install', ['--skip-migrate' => true])
         ->assertSuccessful()
-        ->expectsOutputToContain('TrackVisitorMiddleware middleware registered');
+        ->expectsOutputToContain('TrackVisitorMiddleware middleware not detected — add it manually to bootstrap/app.php');
+});
+
+it('shows a message when TrackVisitor is could not be registered because middleware section is not found', function (): void {
+    File::partialMock();
+
+    File::shouldReceive('exists')->with(base_path('bootstrap/app.php'))->andReturnTrue();
+    File::shouldReceive('get')
+        ->with(base_path('bootstrap/app.php'))
+        ->andReturn('');
+
+    artisan('glimpse:install', ['--skip-migrate' => true])
+        ->assertSuccessful()
+        ->expectsOutputToContain('TrackVisitorMiddleware middleware not detected — add it manually to bootstrap/app.php');
 });
 
 it('accepts force option for re-publishing', function (): void {
@@ -118,4 +150,12 @@ it('displays banner on installation', function (): void {
 it('returns success exit code', function (): void {
     artisan('glimpse:install')
         ->assertSuccessful();
+});
+
+it('fails the database check when the db is not available', function (): void {
+    DB::shouldReceive('connection')->once()->andReturnUsing(static fn (): RuntimeException => new RuntimeException());
+
+    artisan('glimpse:install')
+        ->assertSuccessful()
+        ->expectsOutputToContain('Database connection — run php artisan migrate first');
 });
