@@ -33,9 +33,9 @@ it('renders countries data from aggregate data', function (): void {
         ->assertOk()
         ->assertViewIs('glimpse::livewire.metrics.geo-breakdown')
         ->assertViewHas('countries', fn (Collection $countries): bool => $countries->count() === 3
-            && $countries->firstWhere('country_code', 'US')['visitors'] === 600
-            && $countries->firstWhere('country_code', 'GB')['visitors'] === 300
-            && $countries->firstWhere('country_code', 'DE')['visitors'] === 100);
+            && $countries->firstWhere(static fn (array $item): bool => $item['country']->iso === 'US')['visitors'] === 600
+            && $countries->firstWhere(static fn (array $item): bool => $item['country']->iso === 'GB')['visitors'] === 300
+            && $countries->firstWhere(static fn (array $item): bool => $item['country']->iso === 'DE')['visitors'] === 100);
 });
 
 it('renders cities data from aggregate data', function (): void {

@@ -166,7 +166,7 @@ it('returns countries sorted by visitor count', function (): void {
 
     $countries = resolve(QueryServiceContract::class)->topCountries(DateRange::today());
 
-    expect($countries->first()['country_code'])->toBe('US')
+    expect($countries->first()['country']->iso)->toBe('US')
         ->and($countries->first()['visitors'])->toBe(800)
         ->and($countries->count())->toBe(3);
 });
@@ -230,7 +230,7 @@ it('returns operating systems sorted by visitor count', function (): void {
 
     $os = resolve(QueryServiceContract::class)->topOs(DateRange::today());
 
-    expect($os->first()['os'])->toBe('Windows')
+    expect($os->first()['os']->name)->toBe('Windows')
         ->and($os->first()['visitors'])->toBe(500)
         ->and($os->count())->toBe(3);
 });
