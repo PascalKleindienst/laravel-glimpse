@@ -1,3 +1,6 @@
+@php /** @var \Illuminate\Support\Collection<array-key, array{platform: \LaravelGlimpse\Enums\Platform, visitors: int, percentage: float}> $platforms */ @endphp
+@php /** @var \Illuminate\Support\Collection<array-key, array{os: \LaravelGlimpse\Values\Os, visitors: int}> $os */ @endphp
+
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
         <x-glimpse::card-title>Devices</x-glimpse::card-title>
@@ -12,24 +15,16 @@
     <x-slot style="padding-inline: 0">
         <x-glimpse::table>
             @if ($tab === 'platforms')
-                @php
-                $platformIcons = [
-                    'desktop' => '🖥',
-                    'mobile'  => '📱',
-                    'tablet'  => '⬛',
-                    'bot'     => '🤖',
-                ];
-            @endphp
                 @forelse ($platforms as $i => $row)
-                    @php
-                    $icon  = $platformIcons[$row['platform']] ?? '📱';
-                @endphp
                     <x-glimpse::tr
                         :percentage="$row['percentage']"
                         :index="$i"
-                        wire:key="platform-{{ $dateRange->from->toDateString() }}-{{ $dateRange->to->toDateString() }}-{{ $row['platform'] }}"
+                        wire:key="platform-{{ $dateRange->from->toDateString() }}-{{ $dateRange->to->toDateString() }}-{{ $row['platform']->name }}"
                     >
-                        <x-glimpse::td>{{ $icon }} {{ $row['platform'] }} </x-glimpse::td>
+                        <x-glimpse::td variant="icon">
+                            <span @class (['text-purple-400' => $row['platform']->value === 'bot'])> {{ $row['platform']->icon() }} </span>
+                        </x-glimpse::td>
+                        <x-glimpse::td>{{ $row['platform']->name }} </x-glimpse::td>
                         <x-glimpse::td numeric>
                             <x-glimpse::percentage :percentage="$row['percentage']" />
                         </x-glimpse::td>
@@ -67,7 +62,29 @@
                         :index="$i"
                         wire:key="os-{{ $dateRange->from->toDateString() }}-{{ $dateRange->to->toDateString() }}-{{ $row['os'] }}"
                     >
-                        <x-glimpse::td>{{ $row['os'] }} </x-glimpse::td>
+                        <x-glimpse::td variant="icon">
+                            <span
+                                @class ([
+                                'text-sky-400' => $row['os']->icon === 'windows',
+                                'text-mist-300' => $row['os']->icon === 'mac',
+                                'text-mist-800 dark:text-mist-300' => $row['os']->icon === 'linux',
+                                'text-emerald-400' => $row['os']->icon === 'android',
+                            ])
+                            >
+                                @if ($row['os']->icon === 'windows')
+                                    <x-glimpse::icon.windows />
+                                @elseif ($row['os']->icon === 'mac')
+                                    <x-glimpse::icon.mac />
+                                @elseif ($row['os']->icon === 'android')
+                                    <x-glimpse::icon.android />
+                                @elseif ($row['os']->icon === 'linux')
+                                    <x-glimpse::icon.linux />
+                                @else
+                                    💻
+                                @endif
+                            </span>
+                        </x-glimpse::td>
+                        <x-glimpse::td>{{ $row['os']->name }} </x-glimpse::td>
                         <x-glimpse::td numeric>
                             <x-glimpse::percentage :percentage="$pct" />
                         </x-glimpse::td>

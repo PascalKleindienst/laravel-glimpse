@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Contracts;
 
 use Illuminate\Support\Collection;
+use LaravelGlimpse\Enums\Platform;
+use LaravelGlimpse\Values\Country;
 use LaravelGlimpse\Values\DateRange;
+use LaravelGlimpse\Values\Os;
 
 /**
  * QueryService
@@ -54,7 +57,7 @@ interface QueryServiceContract
     public function topReferrers(DateRange $range, int $limit = 20): Collection;
 
     /**
-     * @return Collection<int, array{country_code: string, visitors: int}>
+     * @return Collection<int, array{country: Country, visitors: int}>
      */
     public function topCountries(DateRange $range, int $limit = 20): Collection;
 
@@ -74,12 +77,12 @@ interface QueryServiceContract
     public function topBrowsers(DateRange $range, int $limit = 10): Collection;
 
     /**
-     * @return Collection<int, array{os: string, visitors: int}>
+     * @return Collection<int, array{os: Os, visitors: int}>
      */
     public function topOs(DateRange $range, int $limit = 10): Collection;
 
     /**
-     * @return Collection<int, array{platform: string, visitors: int, percentage: float}>
+     * @return Collection<int, array{platform: Platform, visitors: int, percentage: float}>
      */
     public function platformBreakdown(DateRange $range): Collection;
 

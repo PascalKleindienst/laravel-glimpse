@@ -10,4 +10,14 @@ enum Platform: string
     case Mobile = 'mobile';
     case Tablet = 'tablet';
     case Bot = 'bot';
+
+    public function icon(): string
+    {
+        return match ($this) {
+            self::Desktop => '🖥',
+            self::Mobile => '📱',
+            self::Tablet => '⬛',
+            default => '🤖',
+        };
+    }
 }

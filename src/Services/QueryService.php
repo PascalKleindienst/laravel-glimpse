@@ -7,8 +7,11 @@ namespace LaravelGlimpse\Services;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use LaravelGlimpse\Contracts\QueryServiceContract;
+use LaravelGlimpse\Enums\Platform;
 use LaravelGlimpse\Models\GlimpseAggregate;
+use LaravelGlimpse\Values\Country;
 use LaravelGlimpse\Values\DateRange;
+use LaravelGlimpse\Values\Os;
 
 final readonly class QueryService implements QueryServiceContract
 {
@@ -72,7 +75,7 @@ final readonly class QueryService implements QueryServiceContract
     public function topCountries(DateRange $range, int $limit = 20): Collection
     {
         return $this->topDimension($range, 'visitors', 'country', $limit)
-            ->map(fn (array $row): array => ['country_code' => $row['dimension'], 'visitors' => $row['count']]);
+            ->map(fn (array $row): array => ['country' => Country::fromIso($row['dimension']), 'visitors' => $row['count']]);
     }
 
     public function topCities(DateRange $range, int $limit = 20): Collection
@@ -96,7 +99,7 @@ final readonly class QueryService implements QueryServiceContract
     public function topOs(DateRange $range, int $limit = 10): Collection
     {
         return $this->topDimension($range, 'visitors', 'os', $limit)
-            ->map(fn (array $row): array => ['os' => $row['dimension'], 'visitors' => $row['count']]);
+            ->map(fn (array $row): array => ['os' => Os::from($row['dimension']), 'visitors' => $row['count']]);
     }
 
     public function platformBreakdown(DateRange $range): Collection
@@ -105,7 +108,7 @@ final readonly class QueryService implements QueryServiceContract
         $total = $rows->sum('count');
 
         return $rows->map(fn (array $row): array => [
-            'platform' => $row['dimension'],
+            'platform' => Platform::from($row['dimension']),
             'visitors' => $row['count'],
             'percentage' => $total > 0 ? round(($row['count'] / $total) * 100, 1) : 0.0,
         ]);

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Sleep;
 use Illuminate\Support\Str;
 use LaravelGlimpse\Models\GlimpseAggregate;
@@ -22,6 +23,7 @@ pest()->extend(TestCase::class)
         Http::preventStrayRequests();
         Bus::fake();
         Date::setTestNow();
+        Storage::fake();
 
         Queue::fake();
     })

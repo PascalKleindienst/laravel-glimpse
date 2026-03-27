@@ -1,15 +1,4 @@
-{{-- Country code → emoji flag helper --}}
-@php
-if (! function_exists('glimpseFlag')) {
-    function glimpseFlag(string $code): string {
-        $code = strtoupper(trim($code));
-        if (strlen($code) !== 2) {return '🌐';}
-        $offset = 0x1F1E6 - ord('A');
-        return mb_chr($offset + ord($code[0])) . mb_chr($offset + ord($code[1]));
-    }
-}
-@endphp
-
+@php /** @var \Illuminate\Support\Collection<array-key, array{country: \LaravelGlimpse\Values\Country, visitors: int}> $countries */ @endphp
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
         <x-glimpse::card-title>Geography</x-glimpse::card-title>
@@ -29,11 +18,11 @@ if (! function_exists('glimpseFlag')) {
                     <x-glimpse::tr
                         :percentage="$pct"
                         :index="$i"
-                        wire:key="country-{{ $dateRange->from->toDateString() }}-{{ $dateRange->to->toDateString() }}-{{ $row['country_code'] }}"
+                        wire:key="country-{{ $dateRange->from->toDateString() }}-{{ $dateRange->to->toDateString() }}-{{ $row['country']->iso }}"
                     >
                         <x-glimpse::td>
-                            <span>{{ glimpseFlag($row['country_code']) }}</span>
-                            {{ $row['country_code'] }}
+                            <span>{{ $row['country']->flag }}</span>
+                            {{ $row['country']->name }}
                         </x-glimpse::td>
                         <x-glimpse::td numeric>
                             <x-glimpse::percentage :percentage="$pct" />
