@@ -22,10 +22,10 @@ final class GlimpseAggregateFactory extends Factory
             'period' => $this->faker->randomElement(Period::cases()),
             'date' => $this->faker->date(),
             'hour' => $this->faker->randomElement(range(0, 23)),
-            'metric' => $this->faker->word(),
+            'metric' => $this->faker->randomElement(['visitors', 'page_views', 'bounce_rate', 'avg_duration', 'avg_time_on_page']),
             'dimension' => $this->faker->word(),
-            'value' => $this->faker->randomFloat(),
-            'count' => $this->faker->randomNumber(),
+            'value' => $this->faker->randomFloat(max: 100_000),
+            'count' => (int) $this->faker->randomFloat(0, max: 5_000),
             'aggregated_at' => Carbon::now(),
         ];
     }

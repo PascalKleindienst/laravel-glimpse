@@ -305,7 +305,7 @@ final readonly class AggregationService implements AggregationServiceContract
         $cursor = $from->copy()->startOfDay();
 
         while ($cursor->lte($to)) {
-            $period = AggregationPeriod::daily($cursor, $cursor->copy()->endOfHour());
+            $period = AggregationPeriod::daily($cursor, $cursor->copy()->endOfDay());
 
             // Use transactions to reduce fsync lag and speed up import
             DB::transaction(function () use ($period): void {

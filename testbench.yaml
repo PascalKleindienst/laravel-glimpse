@@ -6,6 +6,9 @@ providers:
 migrations:
   - database/migrations
 
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
 env:
   APP_LOCALE: de
   GLIMPSE_GEO_DRIVER: maxmind
@@ -13,23 +16,27 @@ env:
 #  CACHE_STORE: file
 
 workbench:
-  start: '/'
+  start: '/glimpse'
   install: true
+  auth: true
+  user: "test@example.com"
+  guard: web
   discovers:
     web: true
-    api: true
     commands: true
-    components: false
     factories: true
-    views: false
+    components: true
+    views: true
   build:
     - asset-publish
     - create-sqlite-db
     - db-wipe
     - migrate-fresh
   assets:
-    - laravel-assets
+    - glimpse-assets
   sync:
+    - from: public/vendor/glimpse
+      to: public/vendor/glimpse
     - from: storage
       to: workbench/storage
       reverse: true
