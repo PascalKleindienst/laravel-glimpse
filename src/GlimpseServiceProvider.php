@@ -7,7 +7,6 @@ namespace LaravelGlimpse;
 use Composer\InstalledVersions;
 use hisorange\BrowserDetect\Contracts\ParserInterface;
 use hisorange\BrowserDetect\Parser;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Routing\Router;
@@ -21,6 +20,7 @@ use LaravelGlimpse\Console\Commands\PruneDataCommand;
 use LaravelGlimpse\Contracts\AggregationServiceContract;
 use LaravelGlimpse\Contracts\PruneServiceContract;
 use LaravelGlimpse\Contracts\QueryServiceContract;
+use LaravelGlimpse\Http\Middleware\AuthorizeGlimpseAccessMiddleware;
 use LaravelGlimpse\Livewire\Dashboard;
 use LaravelGlimpse\Livewire\Metrics\DevicesBreakdown;
 use LaravelGlimpse\Livewire\Metrics\EventsTable;
@@ -106,9 +106,11 @@ final class GlimpseServiceProvider extends ServiceProvider
     private function registerRoutes(): void
     {
         $this->callAfterResolving('router', function (Router $router, Application $app): void {
+            $middleware = config('glimpse.middleware', ['web', 'auth']);
+
             $router->group([
-                'prefix' => $app->make(Repository::class)->get('glimpse.path'),
-                'middleware' => $app->make(Repository::class)->get('glimpse.middleware'),
+                'prefix' => config('glimpse.path', 'glimpse'),
+                'middleware' => [...$middleware, AuthorizeGlimpseAccessMiddleware::class],
                 'name' => 'glimpse.',
             ], function (Router $router): void {
                 $router->get('/', Dashboard::class)->name('dashboard');
