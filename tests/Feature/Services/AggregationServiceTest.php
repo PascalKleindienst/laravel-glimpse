@@ -208,9 +208,12 @@ describe('idempotency', function (): void {
         $total = GlimpseAggregate::query()
             ->where('metric', 'visitors')
             ->where('dimension', '-')
-            ->get('count')
-            ->sum('count');
-        expect((int) $total)->toBe(2);
+            ->get(['count', 'period'])
+            ->groupBy('period')
+            ->map->sum('count');
+
+        expect((int) $total['hourly'])->toBe(2);
+        expect((int) $total['daily'])->toBe(2);
     });
 });
 
