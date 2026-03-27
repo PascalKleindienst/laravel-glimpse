@@ -8,6 +8,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## v0.3.0 - 2026-03-27
+### What's Changed
+
+### 🚀 Features
+
+- Feature/authorization (#5) @PascalKleindienst
+- feat: add main glimpse facade and helper (#7) @PascalKleindienst
+
+### ♻️ Refactoring
+
+- refactor: add value objects for OS and Countries (#6) @PascalKleindienst
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.2.0...v0.3.0
+
 ## v0.2.0 - 2026-03-22
 
 ### What's Changed
@@ -27,5 +41,3 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 > No significant changes.
 
 **Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/...v0.1.0
-
-## [Unreleased]
