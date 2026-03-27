@@ -65,7 +65,6 @@ return [
     'geo' => [
         'driver' => env('GLIMPSE_GEO_DRIVER', 'null'),
         'maxmind_db' => env('GLIMPSE_MAXMIND_DB', storage_path('app/glimpse/GeoLite2-City.mmdb')),
-        'maxmind_key' => env('MAXMIND_LICENSE_KEY'),
         'sxgeo_db' => env('GLIMPSE_SXGEO_DB', storage_path('app/glimpse/SxGeoCity.dat')),
     ],
 
