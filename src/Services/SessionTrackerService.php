@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Services;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -77,7 +77,7 @@ final readonly class SessionTrackerService
      * Update an existing session on a subsequent hit (not first page view).
      * Also backfills the time_on_page_seconds for the previous page view.
      */
-    public function updateSession(GlimpseSession $session, string $path, CarbonImmutable $now): void
+    public function updateSession(GlimpseSession $session, string $path, CarbonInterface $now): void
     {
         // Close the previous page view's time_on_page.
         $previousView = GlimpsePageView::query()->where('session_hash', $session->session_hash)

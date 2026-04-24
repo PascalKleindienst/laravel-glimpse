@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Values;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Stringable;
 
 use function sprintf;
@@ -19,24 +19,24 @@ use function sprintf;
  */
 final readonly class AggregationPeriod implements Stringable
 {
-    private function __construct(public Carbon $start, public Carbon $end, public string $period = 'custom') {}
+    private function __construct(public CarbonInterface $start, public CarbonInterface $end, public string $period = 'custom') {}
 
     public function __toString(): string
     {
         return sprintf('[%s] %s → %s', $this->period, $this->start->toDateTimeString(), $this->end->toDateTimeString());
     }
 
-    public static function custom(Carbon $start, Carbon $end): self
+    public static function custom(CarbonInterface $start, CarbonInterface $end): self
     {
         return new self($start->copy(), $end->copy());
     }
 
-    public static function hourly(Carbon $start, Carbon $end): self
+    public static function hourly(CarbonInterface $start, CarbonInterface $end): self
     {
         return new self($start->copy(), $end->copy(), 'hourly');
     }
 
-    public static function daily(Carbon $start, Carbon $end): self
+    public static function daily(CarbonInterface $start, CarbonInterface $end): self
     {
         return new self($start->copy(), $end->copy(), 'daily');
     }

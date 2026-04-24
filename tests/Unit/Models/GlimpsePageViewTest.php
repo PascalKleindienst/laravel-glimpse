@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Database\Factories\GlimpsePageViewFactory;
 use LaravelGlimpse\Models\GlimpsePageView;
 use LaravelGlimpse\Models\GlimpseSession;
@@ -59,11 +59,11 @@ it('can mass assign fillable attributes', function (): void {
 
 it('closes with timestamp correctly', function (): void {
     $pageView = GlimpsePageView::factory()->create([
-        'created_at' => CarbonImmutable::parse('2024-01-01 10:00:00'),
+        'created_at' => Date::parse('2024-01-01 10:00:00'),
         'time_on_page_seconds' => null,
     ]);
 
-    $nextTimestamp = CarbonImmutable::parse('2024-01-01 10:02:30');
+    $nextTimestamp = Date::parse('2024-01-01 10:02:30');
     $pageView->closeWithTimestamp($nextTimestamp);
 
     expect($pageView->time_on_page_seconds)->toBe(150)
@@ -76,7 +76,7 @@ it('closes with timestamp handles null created_at', function (): void {
         'time_on_page_seconds' => null,
     ]);
 
-    $nextTimestamp = CarbonImmutable::parse('2024-01-01 10:00:00');
+    $nextTimestamp = Date::parse('2024-01-01 10:00:00');
     $pageView->closeWithTimestamp($nextTimestamp);
 
     expect($pageView->time_on_page_seconds)->toBe($nextTimestamp->getTimestamp());

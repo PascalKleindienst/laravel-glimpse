@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Models\GlimpsePageView;
 
 /**
@@ -24,8 +24,8 @@ final class GlimpsePageViewFactory extends Factory
             'query_string' => $this->faker->word(),
             'referrer' => $this->faker->word(),
             'time_on_page_seconds' => $this->faker->randomNumber(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
+            'created_at' => Date::now(),
+            'updated_at' => Date::now(),
         ];
     }
 }

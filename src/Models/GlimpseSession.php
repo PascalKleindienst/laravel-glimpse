@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Models;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,8 +35,8 @@ use Override;
  * @property int<1, max> $page_view_count
  * @property int $duration_seconds
  * @property bool $is_bounce
- * @property CarbonImmutable $started_at
- * @property CarbonImmutable $last_seen_at
+ * @property CarbonInterface $started_at
+ * @property CarbonInterface $last_seen_at
  * @property-read Collection<int, GlimpseEvent> $events
  * @property-read int|null $events_count
  * @property-read Collection<int, GlimpsePageView> $pageViews
@@ -78,7 +78,7 @@ final class GlimpseSession extends Model
      * Mark the session as having more than one page view (no longer a bounce)
      * and update the exit page and timing stats.
      */
-    public function recordSubsequentHit(string $path, CarbonImmutable $now): void
+    public function recordSubsequentHit(string $path, CarbonInterface $now): void
     {
         $this->exit_page = $path;
         $this->page_view_count++;

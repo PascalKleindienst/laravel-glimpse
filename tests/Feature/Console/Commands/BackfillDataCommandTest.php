@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Contracts\AggregationServiceContract;
 use LaravelGlimpse\Data\AggregationResult;
 use Mockery\MockInterface;
@@ -20,8 +20,8 @@ it('displays backfill information message', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDay()->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDay()->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill', ['--from' => '2026-01-01', '--to' => '2026-01-01'])
@@ -34,8 +34,8 @@ it('uses default 90-day range when no options provided', function (): void {
         ->shouldReceive('aggregate')
         ->times(13) // 90 day/7 day chunks => 12.85
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDays(89)->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDays(89)->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill')
@@ -48,8 +48,8 @@ it('respects --from option', function (): void {
         ->once()
         ->withArgs(fn ($from, $to): bool => $from->toDateString() === '2023-06-15')
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2023-06-15')->startOfDay(),
-            CarbonImmutable::parse('2023-06-20')->endOfDay(),
+            Date::parse('2023-06-15')->startOfDay(),
+            Date::parse('2023-06-20')->endOfDay(),
         ));
 
     artisan('glimpse:backfill', ['--from' => '2023-06-15', '--to' => '2023-06-20'])
@@ -62,8 +62,8 @@ it('respects --days shorthand option', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDays(4)->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDays(4)->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill', ['--days' => 5])
@@ -77,12 +77,12 @@ it('processes in chunks based on --chunk option', function (): void {
         ->times(3)
         ->andReturn(
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-01')->startOfDay(),
-                CarbonImmutable::parse('2026-01-03')->endOfDay(),
+                Date::parse('2026-01-01')->startOfDay(),
+                Date::parse('2026-01-03')->endOfDay(),
             ),
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-04')->startOfDay(),
-                CarbonImmutable::parse('2026-01-07')->endOfDay(),
+                Date::parse('2026-01-04')->startOfDay(),
+                Date::parse('2026-01-07')->endOfDay(),
             )
         );
 
@@ -101,16 +101,16 @@ it('handles single-day chunk correctly', function (): void {
         ->times(3)
         ->andReturn(
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-01')->startOfDay(),
-                CarbonImmutable::parse('2026-01-01')->endOfDay(),
+                Date::parse('2026-01-01')->startOfDay(),
+                Date::parse('2026-01-01')->endOfDay(),
             ),
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-02')->startOfDay(),
-                CarbonImmutable::parse('2026-01-02')->endOfDay(),
+                Date::parse('2026-01-02')->startOfDay(),
+                Date::parse('2026-01-02')->endOfDay(),
             ),
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-03')->startOfDay(),
-                CarbonImmutable::parse('2026-01-03')->endOfDay(),
+                Date::parse('2026-01-03')->startOfDay(),
+                Date::parse('2026-01-03')->endOfDay(),
             )
         );
 
@@ -127,8 +127,8 @@ it('displays completion message', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDay()->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDay()->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill', ['--from' => '2026-01-01', '--to' => '2026-01-01'])
@@ -141,8 +141,8 @@ it('returns success exit code', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDay()->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDay()->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill', ['--from' => '2026-01-01', '--to' => '2026-01-01'])
@@ -155,12 +155,12 @@ it('shows task output for each chunk', function (): void {
         ->twice()
         ->andReturn(
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-01')->startOfDay(),
-                CarbonImmutable::parse('2026-01-02')->endOfDay(),
+                Date::parse('2026-01-01')->startOfDay(),
+                Date::parse('2026-01-02')->endOfDay(),
             ),
             new AggregationResult(
-                CarbonImmutable::parse('2026-01-03')->startOfDay(),
-                CarbonImmutable::parse('2026-01-04')->endOfDay(),
+                Date::parse('2026-01-03')->startOfDay(),
+                Date::parse('2026-01-04')->endOfDay(),
             )
         );
 
@@ -179,8 +179,8 @@ it('ignores --from and --to when --days is provided', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subDays(6)->startOfDay(),
-            CarbonImmutable::now()->endOfDay(),
+            Date::now()->subDays(6)->startOfDay(),
+            Date::now()->endOfDay(),
         ));
 
     artisan('glimpse:backfill', [

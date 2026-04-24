@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Data\VisitData;
 use LaravelGlimpse\Facades\SessionTrackerService;
 
 it('creates VisitData with all properties', function (): void {
-    $hitAt = CarbonImmutable::now();
+    $hitAt = Date::now();
     $data = new VisitData(
         sessionHash: 'abc123',
         ipHash: 'def456',
@@ -60,7 +60,7 @@ it('creates VisitData from request', function (): void {
 });
 
 it('converts VisitData to request', function (): void {
-    $hitAt = CarbonImmutable::now();
+    $hitAt = Date::now();
     $data = new VisitData(
         sessionHash: 'abc123',
         ipHash: 'def456',
@@ -95,7 +95,7 @@ it('converts VisitData to array', function (): void {
         referer: 'https://google.com',
         acceptLanguage: 'en-US',
         ip: '192.168.1.1',
-        hitAt: CarbonImmutable::createFromFormat('Y-m-d H:i:s', '2024-01-15 10:30:45'),
+        hitAt: Date::createFromFormat('Y-m-d H:i:s', '2024-01-15 10:30:45'),
         isNewSession: true,
     );
 
@@ -127,7 +127,7 @@ it('implements Arrayable', function (): void {
         referer: null,
         acceptLanguage: null,
         ip: '127.0.0.1',
-        hitAt: CarbonImmutable::now(),
+        hitAt: Date::now(),
         isNewSession: false,
     );
 

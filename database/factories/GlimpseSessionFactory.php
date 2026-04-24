@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Enums\Platform;
 use LaravelGlimpse\Enums\ReferrerChannel;
 use LaravelGlimpse\Models\GlimpseSession;
@@ -41,8 +41,8 @@ final class GlimpseSessionFactory extends Factory
             'page_view_count' => $this->faker->randomNumber(),
             'duration_seconds' => $this->faker->randomNumber(),
             'is_bounce' => $this->faker->boolean(75),
-            'started_at' => Carbon::now(),
-            'last_seen_at' => Carbon::now(),
+            'started_at' => Date::now(),
+            'last_seen_at' => Date::now(),
         ];
     }
 }

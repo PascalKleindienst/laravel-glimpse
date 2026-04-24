@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Enums\Period;
 use LaravelGlimpse\Models\GlimpseAggregate;
 
@@ -26,7 +26,7 @@ final class GlimpseAggregateFactory extends Factory
             'dimension' => $this->faker->word(),
             'value' => $this->faker->randomFloat(max: 100_000),
             'count' => (int) $this->faker->randomFloat(0, max: 5_000),
-            'aggregated_at' => Carbon::now(),
+            'aggregated_at' => Date::now(),
         ];
     }
 }
