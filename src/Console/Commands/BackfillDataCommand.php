@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Console\Commands;
 
 use Carbon\CarbonInterface;
+use Carbon\CarbonPeriod;
 use Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Date;
@@ -73,18 +74,16 @@ final class BackfillDataCommand extends Command
      */
     private function buildChunks(CarbonInterface $from, CarbonInterface $to, int $chunkDays): Generator
     {
-        $cursor = $from->copy();
+        $cursor = CarbonPeriod::create($from, $chunkDays.' day', $to);
 
-        while ($cursor->lte($to)) {
-            $chunkEnd = $cursor->copy()->addDays($chunkDays - 1)->endOfDay();
+        foreach ($cursor as $chunkFrom) {
+            $chunkEnd = $chunkFrom->copy()->addDays($chunkDays - 1)->endOfDay();
 
             if ($chunkEnd->gt($to)) {
                 $chunkEnd = $to->copy();
             }
 
-            yield [$cursor->copy(), $chunkEnd];
-
-            $cursor->addDays($chunkDays);
+            yield [$chunkFrom->copy(), $chunkEnd];
         }
     }
 }

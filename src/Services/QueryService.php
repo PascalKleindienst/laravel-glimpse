@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Services;
 
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use LaravelGlimpse\Contracts\QueryServiceContract;
@@ -178,21 +179,17 @@ final readonly class QueryService implements QueryServiceContract
     private function generateBuckets(DateRange $range, string $period): array
     {
         $buckets = [];
-        $cursor = $range->from->copy();
-
         if ($period === 'hourly') {
-            $cursor->startOfHour();
-            while ($cursor->lte($range->to)) {
-                $key = $cursor->toDateString().':'.$cursor->hour;
-                $buckets[$key] = $cursor->format('j M H:i');
-                $cursor->addHour();
+            $cursor = CarbonPeriod::create($range->from->copy()->startOfHour(), '1 hour', $range->to->copy());
+            foreach ($cursor as $date) {
+                $key = $date->toDateString().':'.$date->hour;
+                $buckets[$key] = $date->format('j M H:i');
             }
         } else {
-            $cursor->startOfDay();
-            while ($cursor->lte($range->to)) {
-                $key = $cursor->toDateString().':null';
-                $buckets[$key] = $cursor->format('j M');
-                $cursor->addDay();
+            $cursor = CarbonPeriod::create($range->from->copy()->startOfDay(), '1 day', $range->to->copy());
+            foreach ($cursor as $date) {
+                $key = $date->toDateString().':null';
+                $buckets[$key] = $date->format('j M');
             }
         }
 
