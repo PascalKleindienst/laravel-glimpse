@@ -1,10 +1,13 @@
 # ⚡ Glimpse Analytics
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/pascalkleindienst/laravel-glimpse.svg?style=flat-square)](https://packagist.org/packages/pascalkleindienst/laravel-glimpse)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/tests.yml?query=branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/lint.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/lint.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/PascalKleindienst/laravel-glimpse/graph/badge.svg?token=MelHC4atzv)](https://codecov.io/gh/PascalKleindienst/laravel-glimpse)
-[![Total Downloads](https://img.shields.io/packagist/dt/pascalkleindienst/laravel-glimpse.svg?style=flat-square)](https://packagist.org/packages/pascalkleindienst/laravel-glimpse)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/pascalkleindienst/laravel-glimpse.svg?color=rgb(56%20189%20248)&label=release&style=for-the-badge)](https://packagist.org/packages/pascalkleindienst/laravel-glimpse)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/tests.yml?branch=main&label=tests&style=for-the-badge&color=rgb(134%20239%20128))](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/tests.yml?query=branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/pascalkleindienst/laravel-glimpse/lint.yml?branch=main&label=code%20style&style=for-the-badge&color=rgb(134%20239%20128))](https://github.com/PascalKleindienst/laravel-glimpse/actions/workflows/lint.yml?query=branch%3Amain)
+[![codecov](https://img.shields.io/codecov/c/gh/PascalKleindienst/laravel-glimpse?token=MelHC4atzv&style=for-the-badge&logo=codecov
+)](https://codecov.io/gh/PascalKleindienst/laravel-glimpse)
+[![Total Downloads](https://img.shields.io/packagist/dt/PascalKleindienst/laravel-glimpse?style=for-the-badge&color=rgb(249%20115%2022))](https://packagist.org/packages/PascalKleindienst/laravel-glimpse)
+![Laravel Version](https://img.shields.io/badge/laravel-%5E12%7C%5E13-rgb(235%2068%2050)?style=for-the-badge&logo=laravel)
+![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/PascalKleindienst/laravel-glimpse/php?style=for-the-badge&logo=php&logoColor=rgb(165%20180%20252)&color=rgb(165%20180%20252))
 
 **Privacy-first, server-side analytics for Laravel 12+.**  
 No cookies. No JavaScript tracking pixel. No GDPR consent banners.  
