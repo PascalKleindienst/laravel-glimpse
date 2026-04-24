@@ -8,6 +8,28 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## v0.3.2 - 2026-04-24
+
+### What's Changed
+
+- chore(deps): bump actions/checkout from 5 to 6 (#10) @[dependabot[bot]](https://github.com/apps/dependabot)
+- chore(deps): bump codecov/codecov-action from 5 to 6 (#9) @[dependabot[bot]](https://github.com/apps/dependabot)
+- chore(deps): bump stefanzweifel/git-auto-commit-action from 5 to 7 (#11) @[dependabot[bot]](https://github.com/apps/dependabot)
+- fix: use CarbonInterface instead of Carbon and CarbonImmutable (#16) @PascalKleindienst
+- fix: use carbon period instead of while loops (#17) @PascalKleindienst
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.3.1...v0.3.2
+
+## v0.3.1 - 2026-03-27
+
+### What's Changed
+
+### Testing
+
+- setup workbench testing
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.3.0...v0.3.1
+
 ## v0.3.0 - 2026-03-27
 ### What's Changed
 
