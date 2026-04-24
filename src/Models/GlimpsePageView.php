@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Models;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,8 +19,8 @@ use Override;
  * @property string|null $query_string
  * @property string|null $referrer
  * @property int|null $time_on_page_seconds
- * @property CarbonImmutable|null $created_at
- * @property CarbonImmutable|null $updated_at
+ * @property CarbonInterface|null $created_at
+ * @property CarbonInterface|null $updated_at
  * @property-read GlimpseSession|null $session
  *
  * @method static GlimpsePageViewFactory factory($count = null, $state = [])
@@ -49,7 +49,7 @@ final class GlimpsePageView extends Model
      * Backfill time_on_page_seconds when the NEXT page view arrives.
      * Called on the PREVIOUS page view row.
      */
-    public function closeWithTimestamp(CarbonImmutable $next): void
+    public function closeWithTimestamp(CarbonInterface $next): void
     {
         $this->time_on_page_seconds = $next->getTimestamp() - ($this->created_at?->getTimestamp() ?? 0);
         $this->updated_at = $next;

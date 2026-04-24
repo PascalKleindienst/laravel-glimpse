@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Contracts;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use LaravelGlimpse\Data\AggregationResult;
 
 /**
@@ -42,5 +42,5 @@ interface AggregationServiceContract
      * This method is idempotent — calling it twice for the same window will
      * upsert (overwrite) existing aggregate rows, never duplicate them.
      */
-    public function aggregate(Carbon $from, Carbon $to): AggregationResult;
+    public function aggregate(CarbonInterface $from, CarbonInterface $to): AggregationResult;
 }

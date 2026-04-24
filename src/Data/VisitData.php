@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Data;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Facades\SessionTrackerService;
 
 /**
@@ -24,7 +25,7 @@ final readonly class VisitData implements Arrayable
         public ?string $referer,
         public ?string $acceptLanguage,
         public string $ip,
-        public CarbonImmutable $hitAt,
+        public CarbonInterface $hitAt,
         public bool $isNewSession,
     ) {}
 
@@ -42,7 +43,7 @@ final readonly class VisitData implements Arrayable
             referer: $request->headers->get('referer'),
             acceptLanguage: $request->headers->get('Accept-Language'),
             ip: $request->ip() ?? '-',
-            hitAt: CarbonImmutable::now(),
+            hitAt: Date::now(),
             isNewSession: ! SessionTrackerService::isActive($sessionHash),
         );
     }

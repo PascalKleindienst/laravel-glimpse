@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Contracts\PruneServiceContract;
 use LaravelGlimpse\Models\GlimpseAggregate;
 use LaravelGlimpse\Models\GlimpseEvent;
@@ -44,7 +44,7 @@ it('shows dry-run warning', function (): void {
 
 it('counts prunable sessions in dry-run', function (): void {
     GlimpseSession::factory()->create([
-        'started_at' => CarbonImmutable::now()->subDays(60),
+        'started_at' => Date::now()->subDays(60),
     ]);
 
     artisan('glimpse:prune', ['--dry-run' => true])
@@ -55,22 +55,22 @@ it('counts prunable sessions in dry-run', function (): void {
 it('deletes old sessions and page views', function (): void {
     $oldSession = GlimpseSession::factory()->create([
         'session_hash' => 'old-session-hash',
-        'started_at' => CarbonImmutable::now()->subDays(60),
+        'started_at' => Date::now()->subDays(60),
     ]);
 
     GlimpsePageView::factory()->create([
         'session_hash' => $oldSession->session_hash,
-        'created_at' => CarbonImmutable::now()->subDays(60),
+        'created_at' => Date::now()->subDays(60),
     ]);
 
     $recentSession = GlimpseSession::factory()->create([
         'session_hash' => 'recent-session-hash',
-        'started_at' => CarbonImmutable::now()->subDays(10),
+        'started_at' => Date::now()->subDays(10),
     ]);
 
     GlimpsePageView::factory()->create([
         'session_hash' => $recentSession->session_hash,
-        'created_at' => CarbonImmutable::now()->subDays(10),
+        'created_at' => Date::now()->subDays(10),
     ]);
 
     artisan('glimpse:prune')
@@ -86,12 +86,12 @@ it('deletes old sessions and page views', function (): void {
 it('deletes old events', function (): void {
     GlimpseEvent::factory()->create([
         'session_hash' => 'old-event-hash',
-        'created_at' => CarbonImmutable::now()->subDays(60),
+        'created_at' => Date::now()->subDays(60),
     ]);
 
     GlimpseEvent::factory()->create([
         'session_hash' => 'recent-event-hash',
-        'created_at' => CarbonImmutable::now()->subDays(10),
+        'created_at' => Date::now()->subDays(10),
     ]);
 
     artisan('glimpse:prune')
@@ -105,11 +105,11 @@ it('deletes old aggregates when retention is configured', function (): void {
     config(['glimpse.retention.aggregates' => 30]);
 
     GlimpseAggregate::factory()->create([
-        'date' => CarbonImmutable::now()->subDays(60),
+        'date' => Date::now()->subDays(60),
     ]);
 
     GlimpseAggregate::factory()->create([
-        'date' => CarbonImmutable::now()->subDays(10),
+        'date' => Date::now()->subDays(10),
     ]);
 
     artisan('glimpse:prune')
@@ -122,11 +122,11 @@ it('does not delete aggregates when retention is null', function (): void {
     config(['glimpse.retention.aggregates' => null]);
 
     GlimpseAggregate::factory()->create([
-        'date' => CarbonImmutable::now()->subDays(200),
+        'date' => Date::now()->subDays(200),
     ]);
 
     GlimpseAggregate::factory()->create([
-        'date' => CarbonImmutable::now()->subDays(10),
+        'date' => Date::now()->subDays(10),
     ]);
 
     artisan('glimpse:prune')
@@ -137,17 +137,17 @@ it('does not delete aggregates when retention is null', function (): void {
 
 it('displays deletion counts in output', function (): void {
     GlimpseSession::factory()->create([
-        'started_at' => CarbonImmutable::now()->subDays(60),
+        'started_at' => Date::now()->subDays(60),
     ]);
 
     GlimpsePageView::factory()->create([
         'session_hash' => 'test-hash',
-        'created_at' => CarbonImmutable::now()->subDays(60),
+        'created_at' => Date::now()->subDays(60),
     ]);
 
     GlimpseEvent::factory()->create([
         'session_hash' => 'test-hash',
-        'created_at' => CarbonImmutable::now()->subDays(60),
+        'created_at' => Date::now()->subDays(60),
     ]);
 
     artisan('glimpse:prune')

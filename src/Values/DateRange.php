@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Values;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Livewire\Wireable;
 use Stringable;
@@ -23,11 +23,11 @@ use function sprintf;
  */
 final readonly class DateRange implements Stringable, Wireable
 {
-    public Carbon $from;
+    public CarbonInterface $from;
 
-    public Carbon $to;
+    public CarbonInterface $to;
 
-    private function __construct(Carbon $from, Carbon $to, public string $preset = 'custom')
+    private function __construct(CarbonInterface $from, CarbonInterface $to, public string $preset = 'custom')
     {
         $this->from = $from->copy()->startOfDay();
         $this->to = $to->copy()->endOfDay();
@@ -101,13 +101,13 @@ final readonly class DateRange implements Stringable, Wireable
         ];
     }
 
-    public static function custom(Carbon $from, Carbon $to): self
+    public static function custom(CarbonInterface $from, CarbonInterface $to): self
     {
         return new self($from, $to, 'custom');
     }
 
     /**
-     * @param  array{from: Carbon, to: Carbon, preset: string}  $value
+     * @param  array{from: CarbonInterface, to: CarbonInterface, preset: string}  $value
      */
     public static function fromLivewire($value): self // @pest-ignore-type
     {
@@ -148,7 +148,7 @@ final readonly class DateRange implements Stringable, Wireable
     }
 
     /**
-     * @return array{from: Carbon, to: Carbon, preset: string}
+     * @return array{from: CarbonInterface, to: CarbonInterface, preset: string}
      */
     public function toLivewire(): array
     {

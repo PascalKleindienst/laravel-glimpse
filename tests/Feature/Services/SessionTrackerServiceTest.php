@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Enums\Platform;
 use LaravelGlimpse\Enums\ReferrerChannel;
 use LaravelGlimpse\Facades\SessionTrackerService;
@@ -49,7 +49,7 @@ it('returns cached session when it exists', function (): void {
 });
 
 it('creates session and caches it', function (): void {
-    $now = CarbonImmutable::now();
+    $now = Date::now();
     $attributes = [
         'session_hash' => 'new-session-hash',
         'ip_hash' => 'ip-hash-123',
@@ -75,8 +75,8 @@ it('updates session counters and refreshes cache', function (): void {
     $session = GlimpseSession::factory()->create([
         'page_view_count' => 1,
         'is_bounce' => true,
-        'started_at' => CarbonImmutable::now()->subMinutes(5),
-        'last_seen_at' => CarbonImmutable::now()->subMinutes(5),
+        'started_at' => Date::now()->subMinutes(5),
+        'last_seen_at' => Date::now()->subMinutes(5),
     ]);
 
     GlimpsePageView::query()->create([
@@ -85,7 +85,7 @@ it('updates session counters and refreshes cache', function (): void {
         'url' => 'http://test.com/first-page',
     ]);
 
-    $now = CarbonImmutable::now();
+    $now = Date::now();
     SessionTrackerService::updateSession($session, '/new-page', $now);
 
     expect($session->exit_page)->toBe('/new-page')
@@ -97,7 +97,7 @@ it('records page view with correct attributes', function (): void {
     $request = Request::create('/test?foo=bar');
     $request->headers->set('referer', 'https://google.com');
 
-    $pageView = SessionTrackerService::recordPageView('session-hash-123', $request, CarbonImmutable::now());
+    $pageView = SessionTrackerService::recordPageView('session-hash-123', $request, Date::now());
 
     expect($pageView->session_hash)->toBe('session-hash-123')
         ->and($pageView->url)->toContain('/test')
@@ -109,7 +109,7 @@ it('records page view with correct attributes', function (): void {
 it('records page view with root path', function (): void {
     $request = Request::create('/');
 
-    $pageView = SessionTrackerService::recordPageView('session-hash', $request, CarbonImmutable::now());
+    $pageView = SessionTrackerService::recordPageView('session-hash', $request, Date::now());
 
     expect($pageView->path)->toBe('/');
 });
@@ -128,7 +128,7 @@ it('returns false when session is not active', function (): void {
 it('session timeout is configurable', function (): void {
     config(['glimpse.session_timeout' => 60]);
 
-    $now = CarbonImmutable::now();
+    $now = Date::now();
     $attributes = [
         'session_hash' => 'timeout-test-hash',
         'page_view_count' => 1,

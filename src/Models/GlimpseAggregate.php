@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Models;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +15,13 @@ use Override;
 /**
  * @property int $id
  * @property Period $period
- * @property CarbonImmutable $date
+ * @property CarbonInterface $date
  * @property int $hour
  * @property string $metric
  * @property string $dimension
  * @property float $value
  * @property int $count
- * @property CarbonImmutable $aggregated_at
+ * @property CarbonInterface $aggregated_at
  *
  * @method static GlimpseAggregateFactory factory($count = null, $state = [])
  * @method static Builder<static>|GlimpseAggregate newModelQuery()

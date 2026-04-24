@@ -181,7 +181,8 @@ describe('currentSessionHash()', function (): void {
     });
 
     it('returns null when session is not started yed', function (): void {
-        request()->setLaravelSession(resolve(Session::class));
+        $session = resolve(Session::class);
+        request()->setLaravelSession($session);
 
         $glimpse = resolve(Glimpse::class);
 
@@ -189,7 +190,8 @@ describe('currentSessionHash()', function (): void {
     });
 
     it('returns session hash when session exists', function (): void {
-        request()->setLaravelSession(resolve(Session::class));
+        $session = resolve(Session::class);
+        request()->setLaravelSession($session);
         request()->session()->start();
 
         $glimpse = resolve(Glimpse::class);

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Data\AggregationResult;
 
 it('creates AggregationResult with all properties', function (): void {
-    $from = CarbonImmutable::parse('2024-01-01 00:00:00');
-    $to = CarbonImmutable::parse('2024-01-02 00:00:00');
+    $from = Date::parse('2024-01-01 00:00:00');
+    $to = Date::parse('2024-01-02 00:00:00');
 
     $result = new AggregationResult(
         from: $from,
@@ -29,8 +29,8 @@ it('creates AggregationResult with all properties', function (): void {
 });
 
 it('has default values', function (): void {
-    $from = CarbonImmutable::parse('2024-01-01 00:00:00');
-    $to = CarbonImmutable::parse('2024-01-02 00:00:00');
+    $from = Date::parse('2024-01-01 00:00:00');
+    $to = Date::parse('2024-01-02 00:00:00');
 
     $result = new AggregationResult($from, $to);
 
@@ -41,8 +41,8 @@ it('has default values', function (): void {
 });
 
 it('converts to string', function (): void {
-    $from = CarbonImmutable::parse('2024-01-01 10:00:00');
-    $to = CarbonImmutable::parse('2024-01-01 11:00:00');
+    $from = Date::parse('2024-01-01 10:00:00');
+    $to = Date::parse('2024-01-01 11:00:00');
 
     $result = new AggregationResult($from, $to, sessionsProcessed: 10, pageViewsProcessed: 50, eventsProcessed: 5, duration: 25.5);
 
@@ -51,8 +51,8 @@ it('converts to string', function (): void {
 
 it('returns summary as string', function (): void {
     $result = new AggregationResult(
-        CarbonImmutable::now(),
-        CarbonImmutable::now(),
+        Date::now(),
+        Date::now(),
         sessionsProcessed: 10,
     );
 
@@ -60,8 +60,8 @@ it('returns summary as string', function (): void {
 });
 
 it('converts to array', function (): void {
-    $from = CarbonImmutable::parse('2026-01-01 01:00:00');
-    $to = CarbonImmutable::parse('2026-01-02 02:00:00');
+    $from = Date::parse('2026-01-01 01:00:00');
+    $to = Date::parse('2026-01-02 02:00:00');
 
     $result = new AggregationResult(
         from: $from,
@@ -83,14 +83,14 @@ it('converts to array', function (): void {
 });
 
 it('implements Arrayable', function (): void {
-    $result = new AggregationResult(CarbonImmutable::now(), CarbonImmutable::now());
+    $result = new AggregationResult(Date::now(), Date::now());
 
     expect($result)->toBeInstanceOf(Arrayable::class);
 });
 
 it('creates new instance from existing one', function (): void {
-    $from = CarbonImmutable::parse('2024-01-01 00:00:00');
-    $to = CarbonImmutable::parse('2024-01-02 00:00:00');
+    $from = Date::parse('2024-01-01 00:00:00');
+    $to = Date::parse('2024-01-02 00:00:00');
     Context::add(AggregationResult::CONTEXT_PAGE_VIEWS, 42);
     Context::add(AggregationResult::CONTEXT_SESSIONS, 13);
     Context::add(AggregationResult::CONTEXT_EVENTS, 37);

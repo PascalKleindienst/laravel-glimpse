@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Data;
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Context;
 use Stringable;
@@ -23,8 +23,8 @@ final readonly class AggregationResult implements Arrayable, Stringable
     public const string CONTEXT_EVENTS = 'glimpse.aggregates.events';
 
     public function __construct(
-        public CarbonImmutable $from,
-        public CarbonImmutable $to,
+        public CarbonInterface $from,
+        public CarbonInterface $to,
         public int $sessionsProcessed = 0,
         public int $pageViewsProcessed = 0,
         public int $eventsProcessed = 0,
@@ -44,7 +44,7 @@ final readonly class AggregationResult implements Arrayable, Stringable
         );
     }
 
-    public static function from(CarbonImmutable $from, CarbonImmutable $to, float $duration = 0): self
+    public static function from(CarbonInterface $from, CarbonInterface $to, float $duration = 0): self
     {
         return new self(
             from: $from,

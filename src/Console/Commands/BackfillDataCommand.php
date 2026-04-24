@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Console\Commands;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Generator;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Date;
@@ -44,7 +44,7 @@ final class BackfillDataCommand extends Command
     }
 
     /**
-     * @return array{Carbon, Carbon}
+     * @return array{CarbonInterface, CarbonInterface}
      */
     private function resolveRange(): array
     {
@@ -69,9 +69,9 @@ final class BackfillDataCommand extends Command
     /**
      * Yield [$chunkFrom, $chunkTo] pairs iterating through the full range.
      *
-     * @return Generator<array{0: Carbon, 1: Carbon}>
+     * @return Generator<array{0: CarbonInterface, 1: CarbonInterface}>
      */
-    private function buildChunks(Carbon $from, Carbon $to, int $chunkDays): Generator
+    private function buildChunks(CarbonInterface $from, CarbonInterface $to, int $chunkDays): Generator
     {
         $cursor = $from->copy();
 

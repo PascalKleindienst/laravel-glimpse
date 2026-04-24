@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Database\Factories\GlimpseAggregateFactory;
 use LaravelGlimpse\Enums\Period;
 use LaravelGlimpse\Models\GlimpseAggregate;
@@ -28,7 +28,7 @@ it('casts period to Period enum', function (): void {
 });
 
 it('casts date to date', function (): void {
-    $date = CarbonImmutable::parse('2024-01-15');
+    $date = Date::parse('2024-01-15');
     $aggregate = GlimpseAggregate::factory()->create(['date' => $date]);
 
     expect($aggregate->date)->toBeInstanceOf(Carbon::class);
@@ -56,7 +56,7 @@ it('casts count to integer', function (): void {
 });
 
 it('casts aggregated_at to timestamp', function (): void {
-    $now = CarbonImmutable::now();
+    $now = Date::now();
     $aggregate = GlimpseAggregate::factory()->create(['aggregated_at' => $now]);
 
     expect($aggregate->aggregated_at)->toBeInt();

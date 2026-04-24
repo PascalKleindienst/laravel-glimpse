@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Contracts\AggregationServiceContract;
 use LaravelGlimpse\Data\AggregationResult;
 use Mockery\MockInterface;
@@ -43,8 +43,8 @@ it('displays aggregation information message', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 00:00:00'),
-            CarbonImmutable::parse('2024-01-01 12:00:00'),
+            Date::parse('2024-01-01 00:00:00'),
+            Date::parse('2024-01-01 12:00:00'),
         ));
 
     artisan('glimpse:aggregate', [
@@ -63,8 +63,8 @@ it('uses cached last run time as default --from', function (): void {
         ->once()
         ->withArgs(fn ($from, $to): bool => $from->toDateTimeString() === '2024-01-01 06:00:00')
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 06:00:00'),
-            CarbonImmutable::now(),
+            Date::parse('2024-01-01 06:00:00'),
+            Date::now(),
         ));
 
     artisan('glimpse:aggregate')
@@ -75,10 +75,10 @@ it('falls back to 6 hours ago when no cached last run', function (): void {
     $this->mock
         ->shouldReceive('aggregate')
         ->once()
-        ->withArgs(fn ($from, $to) => $from->gte(CarbonImmutable::now()->subHours(7)))
+        ->withArgs(fn ($from, $to) => $from->gte(Date::now()->subHours(7)))
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subHours(6),
-            CarbonImmutable::now(),
+            Date::now()->subHours(6),
+            Date::now(),
         ));
 
     artisan('glimpse:aggregate')
@@ -91,8 +91,8 @@ it('respects --from option', function (): void {
         ->once()
         ->withArgs(fn ($from, $to): bool => $from->toDateTimeString() === '2024-01-15 08:00:00')
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-15 08:00:00'),
-            CarbonImmutable::parse('2024-01-15 14:00:00'),
+            Date::parse('2024-01-15 08:00:00'),
+            Date::parse('2024-01-15 14:00:00'),
         ));
 
     artisan('glimpse:aggregate', [
@@ -108,8 +108,8 @@ it('respects --to option', function (): void {
         ->once()
         ->withArgs(fn ($from, $to): bool => $to->toDateTimeString() === '2024-01-20 23:59:59')
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-20 12:00:00'),
-            CarbonImmutable::parse('2024-01-20 23:59:59'),
+            Date::parse('2024-01-20 12:00:00'),
+            Date::parse('2024-01-20 23:59:59'),
         ));
 
     artisan('glimpse:aggregate', [
@@ -124,8 +124,8 @@ it('updates last run cache after successful aggregation', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 00:00:00'),
-            CarbonImmutable::parse('2024-01-01 12:00:00'),
+            Date::parse('2024-01-01 00:00:00'),
+            Date::parse('2024-01-01 12:00:00'),
         ));
 
     artisan('glimpse:aggregate', [
@@ -142,8 +142,8 @@ it('displays processed counts in output', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 00:00:00'),
-            CarbonImmutable::parse('2024-01-01 12:00:00'),
+            Date::parse('2024-01-01 00:00:00'),
+            Date::parse('2024-01-01 12:00:00'),
             sessionsProcessed: 150,
             pageViewsProcessed: 450,
             eventsProcessed: 75,
@@ -166,8 +166,8 @@ it('displays completion message', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 00:00:00'),
-            CarbonImmutable::parse('2024-01-01 12:00:00'),
+            Date::parse('2024-01-01 00:00:00'),
+            Date::parse('2024-01-01 12:00:00'),
         ));
 
     artisan('glimpse:aggregate', [
@@ -183,8 +183,8 @@ it('returns success exit code', function (): void {
         ->shouldReceive('aggregate')
         ->once()
         ->andReturn(new AggregationResult(
-            CarbonImmutable::now()->subHour(),
-            CarbonImmutable::now(),
+            Date::now()->subHour(),
+            Date::now(),
         ));
 
     artisan('glimpse:aggregate')
@@ -199,8 +199,8 @@ it('respects --force option to re-aggregate', function (): void {
         ->once()
         ->withArgs(fn ($from, $to): bool => $from->toDateTimeString() === '2024-01-01 00:00:00')
         ->andReturn(new AggregationResult(
-            CarbonImmutable::parse('2024-01-01 00:00:00'),
-            CarbonImmutable::parse('2024-01-01 12:00:00'),
+            Date::parse('2024-01-01 00:00:00'),
+            Date::parse('2024-01-01 12:00:00'),
         ));
 
     artisan('glimpse:aggregate', [

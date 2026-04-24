@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelGlimpse\Console\Commands;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
@@ -62,7 +62,7 @@ final class AggregateMetricsCommand extends Command
     }
 
     /**
-     * @return array{Carbon, Carbon}
+     * @return array{CarbonInterface, CarbonInterface}
      */
     private function resolveWindow(): array
     {

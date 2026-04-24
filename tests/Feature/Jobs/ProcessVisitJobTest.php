@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use LaravelGlimpse\Data\VisitData;
 use LaravelGlimpse\Jobs\ProcessVisitJob;
 use LaravelGlimpse\Models\GlimpsePageView;
@@ -29,7 +30,7 @@ beforeEach(function (): void {
  *      referer?: string,
  *       acceptLanguage?: string,
  *       ip?: string,
- *        hitAt?: CarbonImmutable,
+ *        hitAt?: CarbonInterface,
  *        isNewSession?: bool,
  * }  $overwrite
  */
@@ -45,7 +46,7 @@ function createVisitData(array $overwrite = []): VisitData
         referer: $overwrite['referer'] ?? null,
         acceptLanguage: $overwrite['acceptLanguage'] ?? 'en-US,en;q=0.9',
         ip: $overwrite['ip'] ?? '192.168.1.1',
-        hitAt: $overwrite['hitAt'] ?? CarbonImmutable::now(),
+        hitAt: $overwrite['hitAt'] ?? Date::now(),
         isNewSession: $overwrite['isNewSession'] ?? true,
     );
 }
@@ -184,7 +185,7 @@ it('closes previous page view time_on_page on subsequent hit', function (): void
         'fullUrl' => 'http://example.com/second',
         'path' => '/second',
         'referer' => 'http://example.com/first',
-        'hitAt' => CarbonImmutable::now()->addSeconds(30),
+        'hitAt' => Date::now()->addSeconds(30),
         'isNewSession' => false,
     ]));
     $job->handle(resolve(SessionTrackerService::class));

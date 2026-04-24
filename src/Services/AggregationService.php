@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LaravelGlimpse\Services;
 
 use BackedEnum;
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Date;
@@ -20,7 +20,7 @@ use LaravelGlimpse\Values\AggregationPeriod;
 
 final readonly class AggregationService implements AggregationServiceContract
 {
-    public function aggregate(Carbon $from, Carbon $to): AggregationResult
+    public function aggregate(CarbonInterface $from, CarbonInterface $to): AggregationResult
     {
         $startedAt = microtime(true);
 
@@ -36,7 +36,7 @@ final readonly class AggregationService implements AggregationServiceContract
      * Generate every hour bucket in the window so we always have a row
      * even for hours with zero traffic (makes charting easier).
      */
-    private function aggregateHourly(Carbon $from, Carbon $to): void
+    private function aggregateHourly(CarbonInterface $from, CarbonInterface $to): void
     {
         $cursor = $from->copy()->startOfHour();
 
@@ -92,7 +92,7 @@ final readonly class AggregationService implements AggregationServiceContract
     }
 
     /**
-     * @param  array<array{period: string, date: string, hour: ?int, metric: string, dimension: ?string, value: float, count: int, aggregated_at: Carbon}>  $data
+     * @param  array<array{period: string, date: string, hour: ?int, metric: string, dimension: ?string, value: float, count: int, aggregated_at: CarbonInterface}>  $data
      */
     private function batchUpsert(array $data): void
     {
@@ -147,7 +147,7 @@ final readonly class AggregationService implements AggregationServiceContract
     }
 
     /**
-     * @return array{period: string, date: string, hour: ?int, metric: string, dimension: string, value: float, count: int, aggregated_at: Carbon}
+     * @return array{period: string, date: string, hour: ?int, metric: string, dimension: string, value: float, count: int, aggregated_at: CarbonInterface}
      */
     private function bucket(AggregationPeriod $period, int $count, string $metric, ?float $value = null, ?string $dimension = null): array
     {
@@ -300,7 +300,7 @@ final readonly class AggregationService implements AggregationServiceContract
         }
     }
 
-    private function aggregateDaily(Carbon $from, Carbon $to): void
+    private function aggregateDaily(CarbonInterface $from, CarbonInterface $to): void
     {
         $cursor = $from->copy()->startOfDay();
 

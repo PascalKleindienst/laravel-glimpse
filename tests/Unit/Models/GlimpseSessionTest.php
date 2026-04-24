@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
@@ -102,7 +101,7 @@ it('records subsequent hit correctly', function (): void {
         'duration_seconds' => 0,
     ]);
 
-    $now = CarbonImmutable::now();
+    $now = Date::now();
     $session->recordSubsequentHit('/new-page', $now);
 
     expect($session->exit_page)->toBe('/new-page')
