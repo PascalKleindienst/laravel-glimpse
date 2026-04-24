@@ -6,6 +6,7 @@ namespace LaravelGlimpse\Services;
 
 use BackedEnum;
 use Carbon\CarbonInterface;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Context;
 use Illuminate\Support\Facades\Date;
@@ -38,10 +39,9 @@ final readonly class AggregationService implements AggregationServiceContract
      */
     private function aggregateHourly(CarbonInterface $from, CarbonInterface $to): void
     {
-        $cursor = $from->copy()->startOfHour();
-
-        while ($cursor->lte($to)) {
-            $period = AggregationPeriod::hourly($cursor, $cursor->copy()->endOfHour());
+        $cursor = CarbonPeriod::create($from->copy()->startOfHour(), '1 hour', $to);
+        foreach ($cursor as $date) {
+            $period = AggregationPeriod::hourly($date, $date->copy()->endOfHour());
 
             // Use transactions to reduce fsync lag and speed up import
             DB::transaction(function () use ($period): void {
@@ -49,8 +49,6 @@ final readonly class AggregationService implements AggregationServiceContract
                 $this->aggregatePageViewsForBucket($period);
                 $this->aggregateEventsForBucket($period);
             });
-
-            $cursor->addHour();
         }
     }
 
@@ -302,10 +300,9 @@ final readonly class AggregationService implements AggregationServiceContract
 
     private function aggregateDaily(CarbonInterface $from, CarbonInterface $to): void
     {
-        $cursor = $from->copy()->startOfDay();
-
-        while ($cursor->lte($to)) {
-            $period = AggregationPeriod::daily($cursor, $cursor->copy()->endOfDay());
+        $cursor = CarbonPeriod::between($from->copy()->startOfDay(), $to);
+        foreach ($cursor as $date) {
+            $period = AggregationPeriod::daily($date, $date->copy()->endOfDay());
 
             // Use transactions to reduce fsync lag and speed up import
             DB::transaction(function () use ($period): void {
@@ -313,8 +310,6 @@ final readonly class AggregationService implements AggregationServiceContract
                 $this->aggregatePageViewsForBucket($period);
                 $this->aggregateEventsForBucket($period);
             });
-
-            $cursor->addDay();
         }
     }
 }
