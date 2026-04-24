@@ -38,6 +38,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
             ]);
 
             $config->set('queue.failed.driver', 'null');
+            $config->set('session.driver', 'array');
         });
     }
 }
