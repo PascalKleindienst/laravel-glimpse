@@ -53,6 +53,8 @@ final class GlimpseServiceProvider extends ServiceProvider
     {
         Number::useLocale(app()->getLocale());
 
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'glimpse');
+
         $this->registerPublishing();
         $this->registerCommands();
         $this->registerRoutes();
@@ -81,6 +83,10 @@ final class GlimpseServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../public/vendor/glimpse' => public_path('vendor/glimpse'),
         ], 'glimpse-assets');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => lang_path('vendor/glimpse'),
+        ], 'glimpse-lang');
     }
 
     private function registerCommands(): void
