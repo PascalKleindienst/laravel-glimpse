@@ -1,12 +1,12 @@
 <x-glimpse::card :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>{{ __('glimpse::messages.visitors_over_time') }}</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.cards.visitors_over_time') }}</x-glimpse::card-title>
         <div class="flex gap-2 font-mono text-xs">
             <span class="flex items-center gap-1">
-                <span class="inline-block size-2 rounded-full bg-accent-content"></span>{{ __('glimpse::messages.visitors') }}
+                <span class="inline-block size-2 rounded-full bg-accent-content"></span>{{ __('glimpse::messages.columns.visitors') }}
             </span>
             <span class="flex items-center gap-1">
-                <span class="inline-block size-2 rounded-full bg-sky-400"></span>{{ __('glimpse::messages.page_views') }}
+                <span class="inline-block size-2 rounded-full bg-sky-400"></span>{{ __('glimpse::messages.columns.views') }}
             </span>
         </div>
     </x-slot:header>
@@ -49,7 +49,7 @@
                         labels: config.labels,
                         datasets: [
                             {
-                                label: {{ __('glimpse::messages.visitors') }},
+                                label: @json (__('glimpse::messages.columns.visitors')),
                                 data: config.visitors,
                                 borderColor: colors.accent,
                                 backgroundColor: colors.accentBg,
@@ -61,7 +61,7 @@
                                 tension: 0.35
                             },
                             {
-                                label: {{ __('glimpse::messages.page_views') }},
+                                label: @json (__('glimpse::messages.columns.views')),
                                 data: config.pageViews,
                                 borderColor: colors.sky,
                                 backgroundColor: colors.skyBg,

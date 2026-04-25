@@ -22,7 +22,7 @@ it('defaults to full when config is not set', function (): void {
 it('returns correct heading', function (): void {
     $widget = new VisitorsChartWidget();
 
-    expect($widget->getHeading())->toBe('Visitors over time');
+    expect($widget->getHeading())->toBe(__('glimpse::messages.cards.visitors_over_time'));
 });
 
 it('renders chart with data from query service', function (): void {

@@ -26,18 +26,18 @@ final class StatsOverviewWidget extends BaseWidget
         $stats = [];
 
         if (config('glimpse.widget.stats.show_visitors', true)) {
-            $stats[] = $this->makeStat('Visitors', $summary['visitors'], $previous['visitors'])
+            $stats[] = $this->makeStat(__('glimpse::messages.cards.visitors'), $summary['visitors'], $previous['visitors'])
                 ->chart($timeSeries->map(static fn (array $row): int => $row['visitors']));
         }
 
         if (config('glimpse.widget.stats.show_page_views', true)) {
-            $stats[] = $this->makeStat('Page Views', $summary['page_views'], $previous['page_views'])
+            $stats[] = $this->makeStat(__('glimpse::messages.cards.page_views'), $summary['page_views'], $previous['page_views'])
                 ->chart($timeSeries->map(static fn (array $row): int => $row['page_views']));
         }
 
         if (config('glimpse.widget.stats.show_bounce_rate', true)) {
             $stats[] = $this->makeStat(
-                'Bounce Rate',
+                __('glimpse::messages.cards.bounce_rate'),
                 $summary['bounce_rate'],
                 $previous['bounce_rate'],
                 format: fn (float $v): string => number_format($v, 1).'%',
@@ -47,7 +47,7 @@ final class StatsOverviewWidget extends BaseWidget
 
         if (config('glimpse.widget.stats.show_avg_duration', true)) {
             $stats[] = $this->makeStat(
-                'Avg. Duration',
+                __('glimpse::messages.cards.avg_duration'),
                 $summary['avg_duration'],
                 $previous['avg_duration'],
                 format: fn (float $value): string => gmdate('i:s', (int) $value).' min',
@@ -73,7 +73,7 @@ final class StatsOverviewWidget extends BaseWidget
         $trend = $this->calculateTrend($current, $previous, $inverse);
 
         if ($trend !== null) {
-            $stat->description(Number::percentage($trend, 2).' increase')
+            $stat->description(__($trend >= 0 ? 'glimpse::messages.increase' : 'glimpse::messages.decrease', ['num' => Number::percentage($trend, 2)]))
                 ->descriptionIcon($trend >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($trend >= 0 ? 'success' : 'danger');
         }

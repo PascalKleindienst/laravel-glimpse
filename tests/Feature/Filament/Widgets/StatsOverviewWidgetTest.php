@@ -22,23 +22,17 @@ it('renders with only visitors enabled and all data present', function (string $
         seedAggregate('visitors', null, 0, 500, period: 'daily', date: $date->toDateString());
     }
 
-    $see = match ($scenario) {
-        'visitors' => 'Visitors',
-        'page_views' => 'Page Views',
-        'bounce_rate' => 'Bounce Rate',
-        'avg_duration' => 'Avg. Duration'
-    };
-
-    $dontSee = match ($scenario) {
-        'visitors' => ['Page Views', 'Bounce Rate', 'Avg. Duration'],
-        'page_views' => ['Visitors', 'Bounce Rate', 'Avg. Duration'],
-        'bounce_rate' => ['Visitors', 'Page Views', 'Avg. Duration'],
-        'avg_duration' => ['Visitors', 'Page Views', 'Bounce Rate'],
-    };
+    $stats = [
+        'visitors' => __('glimpse::messages.cards.visitors'),
+        'page_views' => __('glimpse::messages.cards.page_views'),
+        'bounce_rate' => __('glimpse::messages.cards.bounce_rate'),
+        'avg_duration' => __('glimpse::messages.cards.avg_duration'),
+    ];
+    unset($stats[$scenario]);
 
     Livewire::test(StatsOverviewWidget::class)->assertSuccessful()
-        ->assertSee($see)
-        ->assertDontSee($dontSee);
+        ->assertSee(__('glimpse::messages.cards.'.$scenario))
+        ->assertDontSee($stats);
 })->with([
     'visitors', 'page_views', 'bounce_rate', 'avg_duration',
 ]);

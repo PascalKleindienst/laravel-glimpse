@@ -47,7 +47,7 @@ trait HasTabs
             collect(array_keys($data[$tab]->first() ?? []))
                 ->filter(fn (string|int $column): bool => $column !== 'visitors' && $column !== 'percentage')
                 ->map(fn (string|int $column): TextColumn => TextColumn::make((string) $column)
-                    ->label(__('glimpse.tabs.'.$column))
+                    ->label(__('glimpse::messages.columns.'.$column))
                     ->hidden(fn (): bool => $this->activeTab !== $tab)
                 )
                 ->each(fn (TextColumn $column) => $formatColumnUsing ? $formatColumnUsing($column) : $column)
@@ -62,6 +62,7 @@ trait HasTabs
             ->deferFilters(false)
             ->filters([
                 SelectFilter::make('source')
+                    ->label(__('glimpse::messages.tabs.source'))
                     ->options($this->getTabs())
                     ->default($this->activeTab)
                     ->selectablePlaceholder(false),
@@ -76,7 +77,7 @@ trait HasTabs
     private function makeVisitorsColumn(): Column
     {
         return TextColumn::make('visitors')
-            ->label(__('visitors'))
+            ->label(__('glimpse::messages.columns.visitors'))
             ->numeric();
     }
 
@@ -86,7 +87,7 @@ trait HasTabs
     private function makePercentageColumn(array $data): Column
     {
         return TextColumn::make('percentage')
-            ->label(__('Percentage'))
+            ->label(__('glimpse::messages.columns.percentage'))
             ->state(fn (/** @var array{visitors: int} $record */ array $record) => Number::percentage(
                 $record['visitors'] / $data[$this->activeTab]->max('visitors') * 100,
                 2,

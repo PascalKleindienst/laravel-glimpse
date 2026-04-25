@@ -4,19 +4,19 @@
     <div class="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <x-glimpse::stat-card
             wire:key="visitors-stats-{{ $this->dateRange->label() }}"
-            :label="__('glimpse::messages.visitors')"
+            :label="__('glimpse::messages.cards.visitors')"
             :value="$this->summary['visitors'] ?? 0"
             :previous="$this->previousSummary['visitors'] ?? 0"
         />
         <x-glimpse::stat-card
             wire:key="page-views-stats-{{ $this->dateRange->label() }}"
-            :label="__('glimpse::messages.page_views')"
+            :label="__('glimpse::messages.cards.page_views')"
             :value="$this->summary['page_views'] ?? 0"
             :previous="$this->previousSummary['page_views'] ?? 0"
         />
         <x-glimpse::stat-card
             wire:key="bounce-rate-stats-{{ $this->dateRange->label() }}"
-            :label="__('glimpse::messages.bounce_rate')"
+            :label="__('glimpse::messages.cards.bounce_rate')"
             :value="$this->summary['bounce_rate'] ?? 0"
             :previous="$this->previousSummary['bounce_rate'] ?? 0"
             format="pct"
@@ -24,7 +24,7 @@
         />
         <x-glimpse::stat-card
             wire:key="avg-duration-stats-{{ $this->dateRange->label() }}"
-            :label="__('glimpse::messages.avg_duration')"
+            :label="__('glimpse::messages.cards.avg_duration')"
             :value="$this->summary['avg_duration'] ?? 0"
             :previous="$this->previousSummary['avg_duration'] ?? 0"
             format="dur"

@@ -24,9 +24,9 @@ final class GeoBreakdownWidget extends TableWidget
     public function getTabs(): array
     {
         return [
-            'countries' => 'Countries',
-            'cities' => 'Cities',
-            'languages' => 'Languages',
+            'countries' => __('glimpse::messages.tabs.countries'),
+            'cities' => __('glimpse::messages.tabs.cities'),
+            'languages' => __('glimpse::messages.tabs.languages'),
         ];
     }
 
@@ -57,6 +57,6 @@ final class GeoBreakdownWidget extends TableWidget
     #[Override]
     protected function getTableHeading(): string
     {
-        return __('Geographic Breakdown');
+        return __('glimpse::messages.cards.geography');
     }
 }

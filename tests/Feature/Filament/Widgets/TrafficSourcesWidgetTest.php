@@ -9,8 +9,8 @@ it('returns correct tabs', function (): void {
     $widget = new TrafficSourcesWidget();
 
     expect($widget->getTabs())->toBe([
-        'channels' => 'Channels',
-        'referrers' => 'Referrers',
+        'channels' => __('glimpse::messages.tabs.channels'),
+        'referrers' => __('glimpse::messages.tabs.referrers'),
     ]);
 });
 

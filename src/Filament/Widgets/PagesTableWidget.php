@@ -40,9 +40,9 @@ final class PagesTableWidget extends TableWidget
                     ->openUrlInNewTab(),
             ])
             ->columns([
-                TextColumn::make('path')->label(__('Path')),
-                TextColumn::make('views')->label(__('Views'))->numeric(),
-                TextColumn::make('percentage')->label(__('Percentage'))
+                TextColumn::make('path')->label(__('glimpse::messages.columns.path')),
+                TextColumn::make('views')->label(__('glimpse::messages.columns.views'))->numeric(),
+                TextColumn::make('percentage')->label(__('glimpse::messages.columns.percentage'))
                     ->state(fn (/** @var array{views: int} $record */ array $record): string|false => Number::percentage(
                         $record['views'] / $max * 100,
                         2,
@@ -54,6 +54,6 @@ final class PagesTableWidget extends TableWidget
     #[Override]
     protected function getTableHeading(): string
     {
-        return __('Top Pages');
+        return __('glimpse::messages.cards.top_pages');
     }
 }

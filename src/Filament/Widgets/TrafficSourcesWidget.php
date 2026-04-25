@@ -22,8 +22,8 @@ final class TrafficSourcesWidget extends TableWidget
     public function getTabs(): array
     {
         return [
-            'channels' => 'Channels',
-            'referrers' => 'Referrers',
+            'channels' => __('glimpse::messages.tabs.channels'),
+            'referrers' => __('glimpse::messages.tabs.referrers'),
         ];
     }
 
@@ -49,6 +49,6 @@ final class TrafficSourcesWidget extends TableWidget
     #[Override]
     protected function getTableHeading(): string
     {
-        return __('Traffic Sources');
+        return __('glimpse::messages.cards.traffic_sources');
     }
 }

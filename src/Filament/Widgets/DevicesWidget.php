@@ -24,9 +24,9 @@ final class DevicesWidget extends TableWidget
     public function getTabs(): array
     {
         return [
-            'platforms' => 'Platforms',
-            'browsers' => 'Browsers',
-            'os' => 'OS',
+            'platforms' => __('glimpse::messages.tabs.platforms'),
+            'browsers' => __('glimpse::messages.tabs.browsers'),
+            'os' => __('glimpse::messages.tabs.os'),
         ];
     }
 
@@ -57,6 +57,6 @@ final class DevicesWidget extends TableWidget
     #[Override]
     protected function getTableHeading(): string
     {
-        return __('Devices');
+        return __('glimpse::messages.cards.devices');
     }
 }

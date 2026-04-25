@@ -9,9 +9,9 @@ it('returns correct tabs', function (): void {
     $widget = new GeoBreakdownWidget();
 
     expect($widget->getTabs())->toBe([
-        'countries' => 'Countries',
-        'cities' => 'Cities',
-        'languages' => 'Languages',
+        'countries' => __('glimpse::messages.tabs.countries'),
+        'cities' => __('glimpse::messages.tabs.cities'),
+        'languages' => __('glimpse::messages.tabs.languages'),
     ]);
 });
 

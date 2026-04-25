@@ -9,9 +9,9 @@ it('returns correct tabs', function (): void {
     $widget = new DevicesWidget();
 
     expect($widget->getTabs())->toBe([
-        'platforms' => 'Platforms',
-        'browsers' => 'Browsers',
-        'os' => 'OS',
+        'platforms' => __('glimpse::messages.tabs.platforms'),
+        'browsers' => __('glimpse::messages.tabs.browsers'),
+        'os' => __('glimpse::messages.tabs.os'),
     ]);
 });
 
