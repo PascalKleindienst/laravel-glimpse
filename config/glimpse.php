@@ -55,6 +55,44 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Widget Configuration
+    |--------------------------------------------------------------------------
+    | The 'widget' array contains configuration for each widget. Some widgets have
+    | their own configuration options
+    */
+    'widget' => [
+        'default_range' => env('GLIMPSE_WIDGET_DEFAULT_RANGE', '7d'),
+
+        'devices' => [
+            'columns' => 1,
+            'limit' => 5,
+        ],
+        'geo_breakdown' => [
+            'columns' => 1,
+            'limit' => 5,
+        ],
+        'pages' => [
+            'columns' => 2,
+            'limit' => 10,
+        ],
+        'stats' => [
+            'show_visitors' => true,
+            'show_page_views' => true,
+            'show_bounce_rate' => true,
+            'show_avg_duration' => true,
+        ],
+        'traffic_sources' => [
+            'columns' => 1,
+        ],
+        'visitors' => [
+            'columns' => 'full',
+            'show_visitors' => true,
+            'show_page_views' => true,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | GeoIP Driver
     |--------------------------------------------------------------------------
     | 'maxmind'  – MaxMind GeoIP2 City database (requires a licence key and

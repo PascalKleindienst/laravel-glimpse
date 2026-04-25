@@ -26,11 +26,13 @@ final class DatabaseSeeder extends Seeder
         ]);
 
         $period = CarbonPeriod::create(Date::now()->subDays(45), Date::now());
+        $pages = collect(array_fill(0, 10, ''))->map(fn () => fake()->slug());
+
         foreach ($period as $date) {
-            $sessions = GlimpseSession::factory()->count(random_int(25, 50))->sequence(function () use ($date) {
+            $sessions = GlimpseSession::factory()->count(random_int(25, 50))->sequence(function () use ($date, $pages) {
                 $start = $date->copy()->startOfDay()->addMinutes(random_int(0, 60 * 24));
 
-                return ['started_at' => $start, 'last_seen_at' => $start, 'entry_page' => '/'.random_int(1, 10)];
+                return ['started_at' => $start, 'last_seen_at' => $start, 'entry_page' => '/'.$pages->random()];
             })->create([
                 'exit_page' => null,
                 'region' => null,
