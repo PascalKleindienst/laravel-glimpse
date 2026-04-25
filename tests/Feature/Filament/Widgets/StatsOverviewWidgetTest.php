@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use LaravelGlimpse\Filament\Widgets\StatsOverviewWidget;
+use Livewire\Livewire;
 
 it('renders with only visitors enabled and all data present', function (string $scenario): void {
     config()->set('glimpse.widget.stats.show_visitors', $scenario === 'visitors');
@@ -35,7 +36,7 @@ it('renders with only visitors enabled and all data present', function (string $
         'avg_duration' => ['Visitors', 'Page Views', 'Bounce Rate'],
     };
 
-    Livewire\Livewire::test(StatsOverviewWidget::class)->assertSuccessful()
+    Livewire::test(StatsOverviewWidget::class)->assertSuccessful()
         ->assertSee($see)
         ->assertDontSee($dontSee);
 })->with([

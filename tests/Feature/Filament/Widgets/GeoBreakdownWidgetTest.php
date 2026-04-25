@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use LaravelGlimpse\Filament\Widgets\GeoBreakdownWidget;
+use Livewire\Livewire;
 
 it('returns correct tabs', function (): void {
     $widget = new GeoBreakdownWidget();
@@ -37,7 +38,7 @@ it('renders table with data from query service', function (): void {
     seedAggregate('visitors', 'language:en', 0, 500, period: 'daily');
     seedAggregate('visitors', 'language:de', 0, 300, period: 'daily');
 
-    $widget = Livewire\Livewire::test(GeoBreakdownWidget::class)
+    $widget = Livewire::test(GeoBreakdownWidget::class)
         ->assertSuccessful()
         ->assertTableColumnVisible('country')
         ->assertTableColumnVisible('visitors')

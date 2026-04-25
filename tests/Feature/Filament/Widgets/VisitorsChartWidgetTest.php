@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use LaravelGlimpse\Filament\Widgets\VisitorsChartWidget;
+use Livewire\Livewire;
 
 it('returns correct column span from config', function (): void {
     config()->set('glimpse.widget.visitors.columns', 2);
@@ -32,7 +33,7 @@ it('renders chart with data from query service', function (): void {
     seedAggregate('visitors', null, 0, 600, period: 'daily');
     seedAggregate('page_views', null, 0, 800, period: 'daily');
 
-    Livewire\Livewire::test(VisitorsChartWidget::class)
+    Livewire::test(VisitorsChartWidget::class)
         ->assertSuccessful();
 });
 
@@ -44,7 +45,7 @@ it('renders chart without visitors when disabled', function (): void {
     seedAggregate('visitors', null, 0, 600, period: 'daily');
     seedAggregate('page_views', null, 0, 800, period: 'daily');
 
-    Livewire\Livewire::test(VisitorsChartWidget::class)
+    Livewire::test(VisitorsChartWidget::class)
         ->assertSuccessful();
 });
 
@@ -56,6 +57,6 @@ it('renders chart without page views when disabled', function (): void {
     seedAggregate('visitors', null, 0, 600, period: 'daily');
     seedAggregate('page_views', null, 0, 800, period: 'daily');
 
-    Livewire\Livewire::test(VisitorsChartWidget::class)
+    Livewire::test(VisitorsChartWidget::class)
         ->assertSuccessful();
 });

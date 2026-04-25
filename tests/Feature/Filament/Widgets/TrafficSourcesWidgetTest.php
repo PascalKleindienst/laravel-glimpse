@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use LaravelGlimpse\Filament\Widgets\TrafficSourcesWidget;
+use Livewire\Livewire;
 
 it('returns correct tabs', function (): void {
     $widget = new TrafficSourcesWidget();
@@ -34,7 +35,7 @@ it('renders table with data from query service', function (): void {
     seedAggregate('visitors', 'referrer:google.com', 0, 500, period: 'daily');
     seedAggregate('visitors', 'referrer:twitter.com', 0, 200, period: 'daily');
 
-    $widget = Livewire\Livewire::test(TrafficSourcesWidget::class)
+    $widget = Livewire::test(TrafficSourcesWidget::class)
         ->assertSuccessful();
 
     $widget->assertTableColumnVisible('channel')

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use LaravelGlimpse\Filament\Widgets\DevicesWidget;
+use Livewire\Livewire;
 
 it('returns correct tabs', function (): void {
     $widget = new DevicesWidget();
@@ -36,7 +37,7 @@ it('renders table with data from query service', function (): void {
     seedAggregate('visitors', 'browser:Firefox', 0, 200, period: 'daily');
     seedAggregate('visitors', 'os:Windows', 0, 500, period: 'daily');
 
-    $widget = Livewire\Livewire::test(DevicesWidget::class)
+    $widget = Livewire::test(DevicesWidget::class)
         ->assertSuccessful()
         ->assertTableColumnVisible('platform')
         ->assertTableColumnVisible('visitors')
