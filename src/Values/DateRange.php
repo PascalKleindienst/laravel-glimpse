@@ -92,12 +92,12 @@ final readonly class DateRange implements Stringable, Wireable
     public static function presets(): array
     {
         return [
-            'today' => 'Today',
-            'yesterday' => 'Yesterday',
-            '7d' => 'Last 7 days',
-            '30d' => 'Last 30 days',
-            '90d' => 'Last 90 days',
-            'month' => 'This month',
+            'today' => __('glimpse::messages.today'),
+            'yesterday' => __('glimpse::messages.yesterday'),
+            '7d' => __('glimpse::messages.last_7_days'),
+            '30d' => __('glimpse::messages.last_30_days'),
+            '90d' => __('glimpse::messages.last_90_days'),
+            'month' => __('glimpse::messages.this_month'),
         ];
     }
 
@@ -137,12 +137,12 @@ final readonly class DateRange implements Stringable, Wireable
     public function label(): string
     {
         return match ($this->preset) {
-            'today' => 'Today',
-            'yesterday' => 'Yesterday',
-            '7d' => 'Last 7 days',
-            '30d' => 'Last 30 days',
-            '90d' => 'Last 90 days',
-            'month' => 'This month',
+            'today' => __('glimpse::messages.today'),
+            'yesterday' => __('glimpse::messages.yesterday'),
+            '7d' => __('glimpse::messages.last_7_days'),
+            '30d' => __('glimpse::messages.last_30_days'),
+            '90d' => __('glimpse::messages.last_90_days'),
+            'month' => __('glimpse::messages.this_month'),
             default => $this->from->format('M j').' – '.$this->to->format('M j, Y'),
         };
     }

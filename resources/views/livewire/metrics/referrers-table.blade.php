@@ -1,9 +1,9 @@
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>Traffic Sources</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.traffic_sources') }}</x-glimpse::card-title>
         <div class="flex">
-            <x-glimpse::tab :active="$tab === 'channels'" wire:click="setTab('channels')"> Channels </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'referrers'" wire:click="setTab('referrers')"> Referrers </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'channels'" wire:click="setTab('channels')"> {{ __('glimpse::messages.channels') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'referrers'" wire:click="setTab('referrers')"> {{ __('glimpse::messages.referrers') }} </x-glimpse::tab>
         </div>
     </x-slot:header>
 
@@ -30,7 +30,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No referrer data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_referrer_data')" />
                     </tr>
                 @endforelse
 
@@ -50,7 +50,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No referrer data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_referrer_data')" />
                     </tr>
                 @endforelse
             @endif

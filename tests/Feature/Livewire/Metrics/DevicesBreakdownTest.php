@@ -12,7 +12,7 @@ it('renders with empty data when no aggregates exist', function (): void {
         'dateRange' => DateRange::today(),
     ])
         ->assertOk()
-        ->assertSee('Devices')
+        ->assertSee(__('glimpse::messages.devices'))
         ->assertViewIs('glimpse::livewire.metrics.devices-breakdown')
         ->assertViewHas('tab', 'platforms')
         ->assertViewHas('platforms', fn ($platforms) => $platforms->isEmpty())

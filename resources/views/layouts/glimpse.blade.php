@@ -18,7 +18,7 @@
             <div class="container mx-auto flex h-full items-center justify-between px-6">
                 <div class="flex items-center gap-2 text-lg font-medium uppercase">
                     <div
-                        aria-label="{{ config('glimpse.enabled') ? 'enabled' : 'disabled' }}"
+                        aria-label="{{ config('glimpse.enabled') ? __('glimpse::messages.enabled') : __('glimpse::messages.disabled') }}"
                         @class ([
                             'bg-rose-500 shadow-[0_0_8px_var(--color-rose-500)' => ! config('glimpse.enabled'),
                             'bg-emerald-500 shadow-[0_0_8px_var(--color-emerald-500)' => config('glimpse.enabled'),
@@ -28,7 +28,7 @@
                     Glimpse
 
                     @if (! config('glimpse.enabled'))
-                        <span class="text-xs text-rose-400 italic">(disabled)</span>
+                        <span class="text-xs text-rose-400 italic">({{ __('glimpse::messages.disabled') }})</span>
                     @endif
                 </div>
                 <div class="flex items-center gap-2">

@@ -1,7 +1,7 @@
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>Custom Events</x-glimpse::card-title>
-        <span class="font-mono text-xs"> {{ $events->count() }} event types </span>
+        <x-glimpse::card-title>{{ __('glimpse::messages.custom_events') }}</x-glimpse::card-title>
+        <span class="font-mono text-xs"> {{ $events->count() }} {{ __('glimpse::messages.event_types') }} </span>
     </x-slot:header>
 
     <x-slot style="padding-inline: 0">
@@ -21,10 +21,13 @@
                 </x-glimpse::tr>
             @empty
                 <tr>
-                    <x-glimpse::no-results icon="⚡" icon:class="text-amber-400">
-                        No events dispatched yet.<br />
+                    <x-glimpse::no-results icon="⚡" icon:class="text-amber-400" :label="__('glimpse::messages.no_events_yet')">
                         <span class="mt-2 block text-sm">
-                            Use <code class="rounded-sm bg-rose-400/40 px-2 py-1 font-mono text-rose-950">Glimpse::event('name')</code>
+                            {{ __('glimpse::messages.use_glimpse_event') }}
+                            <code
+                                class="rounded-sm bg-rose-400/40 px-2 py-1 font-mono text-rose-950"
+                                >{{ __('glimpse::messages.glimpse_event_helper') }}</code
+                            >
                         </span>
                     </x-glimpse::no-results>
                 </tr>

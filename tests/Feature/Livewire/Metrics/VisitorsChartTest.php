@@ -14,7 +14,7 @@ it('renders with empty data when no aggregates exist', function (): void {
     ])
         ->assertOk()
         ->assertViewIs('glimpse::livewire.metrics.visitors-chart')
-        ->assertSee('Visitors over time')
+        ->assertSee(__('glimpse::messages.visitors_over_time'))
         ->assertViewHas('labels', fn (array $labels): bool => count($labels) === 24)
         ->assertViewHas('visitors', fn (array $visitors): bool => Arr::every($visitors, static fn (int $v): bool => $v === 0))
         ->assertViewHas('page_views', fn (array $views): bool => Arr::every($views, static fn (int $v): bool => $v === 0));

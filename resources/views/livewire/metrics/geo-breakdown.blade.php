@@ -1,12 +1,12 @@
 @php /** @var \Illuminate\Support\Collection<array-key, array{country: \LaravelGlimpse\Values\Country, visitors: int}> $countries */ @endphp
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>Geography</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.geography') }}</x-glimpse::card-title>
 
         <div class="flex">
-            <x-glimpse::tab :active="$tab === 'countries'" wire:click="setTab('countries')"> Countries </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'cities'" wire:click="setTab('cities')"> Cities </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'languages'" wire:click="setTab('languages')"> Languages </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'countries'" wire:click="setTab('countries')"> {{ __('glimpse::messages.countries') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'cities'" wire:click="setTab('cities')"> {{ __('glimpse::messages.cities') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'languages'" wire:click="setTab('languages')"> {{ __('glimpse::messages.languages') }} </x-glimpse::tab>
         </div>
     </x-slot:header>
 
@@ -31,7 +31,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No geo data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_geo_data')" />
                     </tr>
                 @endforelse
             @elseif ($tab === 'cities')
@@ -50,7 +50,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No city data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_city_data')" />
                     </tr>
                 @endforelse
             @else
@@ -69,7 +69,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No language data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_language_data')" />
                     </tr>
                 @endforelse
             @endif

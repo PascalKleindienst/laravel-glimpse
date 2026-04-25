@@ -3,12 +3,12 @@
 
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>Devices</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.devices') }}</x-glimpse::card-title>
 
         <div class="flex">
-            <x-glimpse::tab :active="$tab === 'platforms'" wire:click="setTab('platforms')"> Platforms </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'browsers'" wire:click="setTab('browsers')"> Browsers </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'os'" wire:click="setTab('os')"> OS </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'platforms'" wire:click="setTab('platforms')"> {{ __('glimpse::messages.platforms') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'browsers'" wire:click="setTab('browsers')"> {{ __('glimpse::messages.browsers') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'os'" wire:click="setTab('os')"> {{ __('glimpse::messages.os') }} </x-glimpse::tab>
         </div>
     </x-slot:header>
 
@@ -32,7 +32,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results icon="📱" label="No device data yet" />
+                        <x-glimpse::no-results icon="📱" :label="__('glimpse::messages.no_device_data')" />
                     </tr>
                 @endforelse
             @elseif ($tab === 'browsers')
@@ -51,7 +51,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results label="No browser data yet" />
+                        <x-glimpse::no-results :label="__('glimpse::messages.no_browser_data')" />
                     </tr>
                 @endforelse
             @else
@@ -92,7 +92,7 @@
                     </x-glimpse::tr>
                 @empty
                     <tr>
-                        <x-glimpse::no-results icon="💻" label="No os data yet" />
+                        <x-glimpse::no-results icon="💻" :label="__('glimpse::messages.no_os_data')" />
                     </tr>
                 @endforelse
             @endif
