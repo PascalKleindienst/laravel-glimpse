@@ -27,6 +27,7 @@ return [
     'this_month' => 'This month',
     'increase' => ':num increase',
     'decrease' => ':num decrease',
+    'open' => 'open',
     'tabs' => [
         'source' => 'Source',
         'browsers' => 'Browsers',

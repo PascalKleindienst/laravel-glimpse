@@ -33,7 +33,8 @@ final class PagesTableWidget extends TableWidget
         return $table
             ->records(static fn () => $pages)
             ->recordActions([
-                Action::make('show')
+                Action::make('open')
+                    ->label(__('glimpse::messages.open'))
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     // @phpstan-ignore-next-line
                     ->url(static fn (/** @var array{path: string} $record */ array $record): string => url($record['path']))

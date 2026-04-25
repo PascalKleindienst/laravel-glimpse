@@ -27,6 +27,7 @@ return [
     'this_month' => 'Dieser Monat',
     'increase' => 'Anstieg um :num',
     'decrease' => 'Rückgang um :num',
+    'open' => 'Öffnen',
     'tabs' => [
         'source' => 'Quelle',
         'browsers' => 'Browser',
