@@ -24,6 +24,7 @@ arch('avoid mutation')
         'LaravelGlimpse\Models',
         'LaravelGlimpse\Console\Commands',
         'LaravelGlimpse\Livewire',
+        'LaravelGlimpse\Filament\Widgets',
         GeoResolver::class,
         GlimpseServiceProvider::class,
         GlimpseGate::class,
@@ -40,6 +41,7 @@ arch('avoid inheritance')
         'LaravelGlimpse\Jobs',
         'LaravelGlimpse\Facades',
         'LaravelGlimpse\Livewire',
+        'LaravelGlimpse\Filament\Widgets',
         GlimpseServiceProvider::class,
     ]);
 

@@ -46,14 +46,14 @@ it('computes the previous period correctly', function (): void {
 });
 
 it('generates correct labels for all presets', function (string $preset, string $label): void {
-    expect(DateRange::fromPreset($preset)->label())->toBe($label);
+    expect(DateRange::fromPreset($preset)->label())->toBe(__($label));
 })->with([
-    'today' => ['today', 'Today'],
-    'yesterday' => ['yesterday', 'Yesterday'],
-    '7d' => ['7d', 'Last 7 days'],
-    '30d' => ['30d', 'Last 30 days'],
-    '90d' => ['90d', 'Last 90 days'],
-    'month' => ['month', 'This month'],
+    'today' => ['today', 'glimpse::messages.today'],
+    'yesterday' => ['yesterday', 'glimpse::messages.yesterday'],
+    '7d' => ['7d', 'glimpse::messages.last_7_days'],
+    '30d' => ['30d', 'glimpse::messages.last_30_days'],
+    '90d' => ['90d', 'glimpse::messages.last_90_days'],
+    'month' => ['month', 'glimpse::messages.this_month'],
 ]);
 
 it('returns all preset options', function (): void {

@@ -31,8 +31,17 @@ $deltaClass = match($delta['dir']) {
 
         @if ($delta['pct'] !== null)
             <span class="inline-flux items-center gap-2 font-mono text-sm px-2 py-1 rounded-sm  {{ $deltaClass }}">
-                {{ $delta['dir'] === 'up' ? '↑' : '↓' }} {{ $delta['pct'] }}%
-                <span class="text-xs opacity-80">{{ __('glimpse::messages.vs_prev') }}</span>
+                @if ($delta['dir'] === 'up')
+                    <span class="text-xs opacity-80">
+                        {{ __('glimpse::messages.increase', ['num' => \Illuminate\Support\Number::percentage($delta['pct'], 2, 2)]) }}
+                    </span>
+                    ↗
+                @else
+                    <span class="text-xs opacity-80">
+                        {{ __('glimpse::messages.decrease', ['num' => \Illuminate\Support\Number::percentage($delta['pct'], 2, 2)]) }}
+                    </span>
+                    ↘
+                @endif
             </span>
         @else
             <span class="inline-flux flat items-center gap-2 rounded-sm px-2 py-1 font-mono text-sm {{ $deltaClass }}"

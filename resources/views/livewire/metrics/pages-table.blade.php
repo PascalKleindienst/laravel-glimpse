@@ -1,7 +1,7 @@
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>{{ __('glimpse::messages.top_pages') }}</x-glimpse::card-title>
-        <span class="font-mono text-xs"> {{ $pages->count() }} {{ __('glimpse::messages.pages') }} </span>
+        <x-glimpse::card-title>{{ __('glimpse::messages.cards.top_pages') }}</x-glimpse::card-title>
+        <span class="font-mono text-xs"> {{ $pages->count() }} {{ __('glimpse::messages.tabs.pages') }} </span>
     </x-slot:header>
 
     <x-slot style="padding-inline: 0">

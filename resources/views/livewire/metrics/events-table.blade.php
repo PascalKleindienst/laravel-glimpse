@@ -1,6 +1,6 @@
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>{{ __('glimpse::messages.custom_events') }}</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.cards.custom_events') }}</x-glimpse::card-title>
         <span class="font-mono text-xs"> {{ $events->count() }} {{ __('glimpse::messages.event_types') }} </span>
     </x-slot:header>
 

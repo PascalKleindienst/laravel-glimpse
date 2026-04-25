@@ -3,12 +3,16 @@
 
 <x-glimpse::card scroll :rows="$rows" :cols="$cols" wire:poll.60s :wire:key="$this->getKey()">
     <x-slot:header>
-        <x-glimpse::card-title>{{ __('glimpse::messages.devices') }}</x-glimpse::card-title>
+        <x-glimpse::card-title>{{ __('glimpse::messages.cards.devices') }}</x-glimpse::card-title>
 
         <div class="flex">
-            <x-glimpse::tab :active="$tab === 'platforms'" wire:click="setTab('platforms')"> {{ __('glimpse::messages.platforms') }} </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'browsers'" wire:click="setTab('browsers')"> {{ __('glimpse::messages.browsers') }} </x-glimpse::tab>
-            <x-glimpse::tab :active="$tab === 'os'" wire:click="setTab('os')"> {{ __('glimpse::messages.os') }} </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'platforms'" wire:click="setTab('platforms')">
+                {{ __('glimpse::messages.tabs.platforms') }}
+            </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'browsers'" wire:click="setTab('browsers')">
+                {{ __('glimpse::messages.tabs.browsers') }}
+            </x-glimpse::tab>
+            <x-glimpse::tab :active="$tab === 'os'" wire:click="setTab('os')"> {{ __('glimpse::messages.tabs.os') }} </x-glimpse::tab>
         </div>
     </x-slot:header>
 
