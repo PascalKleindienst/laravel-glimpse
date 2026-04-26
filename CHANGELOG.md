@@ -8,6 +8,16 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+
+## v0.4.0 - 2026-04-26
+
+### What's Changed
+
+- feat: add filament widgets (#19) @PascalKleindienst
+- feat: add localization support (#18) @PascalKleindienst
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.3.2...v0.4.0
+
 ## v0.3.2 - 2026-04-24
 
 ### What's Changed
