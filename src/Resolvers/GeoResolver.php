@@ -104,7 +104,7 @@ final class GeoResolver implements Resolver
     {
         $database = config('glimpse.geo.maxmind_db');
         if (! $database || ! File::exists($database)) {
-            Log::warning('SxGeo database not found at '.$database);
+            Log::warning('maxmind database not found at '.$database);
 
             return $this->empty();
         }
