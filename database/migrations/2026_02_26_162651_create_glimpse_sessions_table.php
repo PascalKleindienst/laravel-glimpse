@@ -54,8 +54,8 @@ return new class extends Migration
             // for clarity and performance.
             $table->index(['started_at']);
             $table->index(['last_seen_at']);
-            $table->index(['country_code', 'startet_at']);
-            $table->index(['platform', 'startet_at']);
+            $table->index(['country_code', 'started_at']);
+            $table->index(['platform', 'started_at']);
         });
     }
 
