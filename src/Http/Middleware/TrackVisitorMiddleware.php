@@ -6,13 +6,13 @@ namespace LaravelGlimpse\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use LaravelGlimpse\Data\VisitData;
 use LaravelGlimpse\Jobs\ProcessVisitJob;
 use LaravelGlimpse\Resolvers\DeviceResolver;
 use LaravelGlimpse\Services\SessionTrackerService;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 final readonly class TrackVisitorMiddleware
