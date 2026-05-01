@@ -83,8 +83,8 @@ it('does not track requests expecting JSON', function (): void {
     Bus::assertNotDispatched(ProcessVisitJob::class);
 });
 
-it('does not track excluded paths', function (): void {
-    config(['glimpse.exclude.paths' => ['admin/*', 'api/*']]);
+it('does not track excluded paths', function ($path): void {
+    config(['glimpse.exclude.paths' => [$path]]);
 
     $middleware = resolve(TrackVisitorMiddleware::class);
     $request = createRequest(['session' => createMockSession()], url: '/admin/dashboard');
@@ -93,10 +93,27 @@ it('does not track excluded paths', function (): void {
 
     expect($response->getContent())->toBe('OK');
     Bus::assertNotDispatched(ProcessVisitJob::class);
-});
+})->with([
+    '/admin/',
+    '/^admin\/?.*/',
+]);
+
+it('does track excluded paths if broken regex', function ($path): void {
+    config(['glimpse.exclude.paths' => [$path]]);
+
+    $middleware = resolve(TrackVisitorMiddleware::class);
+    $request = createRequest(['session' => createMockSession()], url: '/admin/dashboard');
+
+    $response = $middleware->handle($request, fn (Request $req): Response => new Response('OK'));
+
+    expect($response->getContent())->toBe('OK');
+    Bus::assertDispatched(ProcessVisitJob::class);
+})->with([
+    'admin',
+]);
 
 it('does not track excluded IPs', function (): void {
-    config(['glimpse.exclude.ips' => ['192.168.1.1', '10.0.0.1']]);
+    config(['glimpse.exclude.ips' => ['192.168.*.*', '10.0.0.1']]);
 
     $middleware = resolve(TrackVisitorMiddleware::class);
 
