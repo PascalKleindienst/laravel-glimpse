@@ -14,6 +14,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | The configuration for excluding certain paths and bots
+    |--------------------------------------------------------------------------
+    | 'bots' - Exclude bots from tracking
+    | 'paths' - Exclude paths from tracking. Use regex for matching
+    | 'ips' - Exclude IPs from tracking. Ips can use wildcards, e.g. 192.168.*.*
+    */
+    'exclude' => [
+        'bots' => true,
+        'paths' => [
+            '/^glimpse$/',
+            '/^admin\/?.*/',
+            '/^api\/?.*/',
+        ],
+        'ips' => [],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Queue Connection & Queue Name
     |--------------------------------------------------------------------------
     | Glimpse dispatches a queued job for every hit so tracking adds zero

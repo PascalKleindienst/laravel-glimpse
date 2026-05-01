@@ -125,6 +125,24 @@ return [
     | disabling in local/staging environments via your .env file.
     */
     'enabled' => env('GLIMPSE_ENABLED', true),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | The configuration for excluding certain paths and bots
+    |--------------------------------------------------------------------------
+    | 'bots' - Exclude bots from tracking
+    | 'paths' - Exclude paths from tracking. Use regex for matching
+    | 'ips' - Exclude IPs from tracking. Use regex for matching
+    */
+    'exclude' => [
+        'bots' => true,
+        'paths' => [
+            '/^glimpse$/',
+            '/^admin\/?.*/',
+            '/^api\/?.*/',
+        ],
+        'ips' => [],
+    ],
 
     /*
     |--------------------------------------------------------------------------
