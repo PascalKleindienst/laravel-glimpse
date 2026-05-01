@@ -10,6 +10,7 @@ use hisorange\BrowserDetect\Parser;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Number;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -60,6 +61,7 @@ final class GlimpseServiceProvider extends ServiceProvider
         $this->registerRoutes();
         $this->registerMigrations();
         $this->registerComponents();
+        $this->registerSchedules();
     }
 
     private function registerPublishing(): void
@@ -150,5 +152,13 @@ final class GlimpseServiceProvider extends ServiceProvider
         Livewire::component('glimpse.pages-table', PagesTable::class);
         Livewire::component('glimpse.referrers-table', ReferrersTable::class);
         Livewire::component('glimpse.visitors-chart', VisitorsChart::class);
+    }
+
+    private function registerSchedules(): void
+    {
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule): void {
+            $schedule->command('glimpse:aggregate')->everyFiveMinutes()->withoutOverlapping();
+            $schedule->command('glimpse:prune')->dailyAt('03:00');
+        });
     }
 }
