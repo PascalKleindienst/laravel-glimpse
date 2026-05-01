@@ -7,7 +7,15 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 
 ---
+## v0.5.0 - 2026-05-01
 
+## What's Changed
+
+- Feature/improve exclude checks (#23) @PascalKleindienst
+- fix: wrong response type in TrackVisitorMiddleware (#24) @PascalKleindienst
+- fix: wrong log message for resolveMaxMind method
+
+**Full Changelog**: https://github.com/PascalKleindienst/laravel-glimpse/compare/v0.4.0...v0.5.0
 
 ## v0.4.0 - 2026-04-26
 
