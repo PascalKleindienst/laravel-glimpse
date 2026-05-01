@@ -8,12 +8,12 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use LaravelGlimpse\Data\VisitData;
 use LaravelGlimpse\Jobs\ProcessVisitJob;
 use LaravelGlimpse\Resolvers\DeviceResolver;
 use LaravelGlimpse\Services\SessionTrackerService;
-
-use function in_array;
+use Throwable;
 
 final readonly class TrackVisitorMiddleware
 {
@@ -101,8 +101,12 @@ final readonly class TrackVisitorMiddleware
         $excluded = config('glimpse.exclude.paths', []);
 
         foreach ($excluded as $pattern) {
-            if (fnmatch($pattern, $path)) {
-                return true;
+            try {
+                if (preg_match($pattern, $path)) {
+                    return true;
+                }
+            } catch (Throwable) {
+                // ignore error due to misconfigured regex
             }
         }
 
@@ -115,6 +119,19 @@ final readonly class TrackVisitorMiddleware
             return false;
         }
 
-        return in_array($ip, config('glimpse.exclude.ips', []), strict: true);
+        /** @var string[] $excluded */
+        $excluded = config('glimpse.exclude.ips', []);
+        $ip = ip2long($ip);
+
+        foreach ($excluded as $pattern) {
+            $minIpRange = ip2long(Str::replace('*', '0', $pattern));
+            $maxIpRange = ip2long(Str::replace('*', '255', $pattern));
+
+            if ($ip >= $minIpRange && $ip <= $maxIpRange) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
