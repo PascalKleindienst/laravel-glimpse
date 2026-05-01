@@ -16,7 +16,7 @@ return new class extends Migration
 
             // Full URL stored for debugging; path used for grouping in queries.
             $table->text('url')->nullable();
-            $table->string('path', 2048)->nullable();
+            $table->string('path', 191)->nullable();
 
             // Query string stored separately so paths can be grouped cleanly.
             $table->string('query_string')->nullable();
